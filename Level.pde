@@ -2,13 +2,13 @@ class Level {
     int levelNumber;
     int numCities;
     int numBatteries;
-    int numMissiles;
+    
 
-    Level(int levelNumber, int numCities, int numBatteries, int numMissiles) {
+    Level(int levelNumber, int numCities, int numBatteries) {
         this.levelNumber = levelNumber;
         this.numCities = numCities;
         this.numBatteries = numBatteries;
-        this.numMissiles = numMissiles;
+        
     }
 
     int getLevelNumber() {
@@ -23,7 +23,5 @@ class Level {
         return this.numBatteries;
     }
 
-    int getNumMissiles() {
-        return this.numMissiles;
-    }
+    
 }

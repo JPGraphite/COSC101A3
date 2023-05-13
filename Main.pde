@@ -6,12 +6,12 @@ void setup() {
     size(500, 500);
     noCursor();
     frameRate(30);
-    level = new Level(1, 1, 1, 10);
+    level = new Level(1, 1, 1);
     game = new GameState(
         level.getLevelNumber(),
         level.getNumCities(),
-        level.getNumBatteries(),
-        level.getNumMissiles()
+        level.getNumBatteries()
+        
     );
     game.setup();
 }
