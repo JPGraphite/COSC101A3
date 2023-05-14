@@ -36,7 +36,7 @@ void setup() {
     success = new SoundFile(this, "./data/success.wav");
     success.amp(0.5);
     soundtrack.loop();
-    soundtrack.amp(0.5);
+    soundtrack.amp(0.3);
 
 }
 
