@@ -1,9 +1,9 @@
-class AudioLoadingTask implements Runnable {
+class AudioLoader implements Runnable {
     PApplet p;
     String filepath;
     SoundFile soundtrack;
 
-  AudioLoadingTask(PApplet p, String filepath) {
+  AudioLoader(PApplet p, String filepath) {
     this.p = p;
     this.filepath = filepath;
   }
