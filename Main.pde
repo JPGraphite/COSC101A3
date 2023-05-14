@@ -6,6 +6,7 @@ Menu menu;
 ArrayList<Level> levels = new ArrayList<Level>();
 int previousScore = 0;
 SoundFile soundtrack, success;
+boolean soundLoaded = false;
 
 void setup() {
     size(500, 500);
@@ -32,11 +33,6 @@ void setup() {
     game.setPaused(true);
     menu = new Menu(game);
     game.setup();
-    soundtrack = new SoundFile(this, "./data/soundtrack.mp3");
-    success = new SoundFile(this, "./data/success.wav");
-    success.amp(0.5);
-    soundtrack.loop();
-    soundtrack.amp(0.3);
 
 }
 
@@ -66,7 +62,11 @@ void nextLevel() {
 }
 
 
+
+
 void draw() {
+
+
 
     if (game.getDestroyedMissileCount() >= game.getMaxMissiles()) {
         nextLevel();
@@ -79,6 +79,21 @@ void draw() {
     } else {
         menu.draw();
     }
+
+    if (!soundLoaded) {
+        // Function to run only once after the first draw()
+        loadSound();
+        soundLoaded = true;
+    }
+}
+
+
+void loadSound() {
+    soundtrack = new SoundFile(this, "./data/soundtrack.mp3");
+    soundtrack.loop();
+    soundtrack.amp(0.3);
+    success = new SoundFile(this, "./data/success.wav");
+    success.amp(0.5);
 }
 
 void mousePressed() {
