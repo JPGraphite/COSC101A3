@@ -1,7 +1,7 @@
 Level level;
 GameState game;
 Menu menu;
-ArrayList<Level> levels =new ArrayList<Level>();
+ArrayList<Level> levels = new ArrayList<Level>();
 int previousScore = 0;
 
 void setup() {
@@ -71,5 +71,8 @@ void mouseClicked() {
 }
 
 void keyPressed() {
+    // Prevent paused screen functionality between levels
+    if(game.isPaused() && menu.getCurrentScreen() != ScreenType.PAUSED) return;
+
     game.keyPressed();
 }

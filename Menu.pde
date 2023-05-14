@@ -42,6 +42,10 @@ class Menu {
         currentScreen = type;
     }
 
+    ScreenType getCurrentScreen() {
+        return currentScreen;
+    }
+
 
     void drawNextLevelScreen() {
         drawStartingScreen();
