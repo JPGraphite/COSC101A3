@@ -52,7 +52,6 @@ void nextLevel() {
     int currentLevel = level.getLevelNumber();
     level = levels.get(currentLevel);
     previousScore = game.getScore();
-    println(previousScore);
     game = new GameState(
         this,
         level.getLevelNumber(),
