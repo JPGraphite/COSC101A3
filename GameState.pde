@@ -4,17 +4,19 @@ class GameState {
   int levelNumber;
   int numCities;
   int numBatteries;
+  int maxMissiles;
+  int numMissiles;
 
   int score;
   ArrayList<Missile> missiles;
   ArtilleryBattery battery;
 
-  GameState(int levelNumber, int numCities, int numBatteries) {
+  GameState(int levelNumber, int numCities, int numBatteries, int maxMissiles) {
     this.score = 0;
     this.levelNumber = levelNumber;
     this.numCities = numCities;
     this.numBatteries = numBatteries;
-
+ 	this.maxMissiles = maxMissiles;
   }
 
   void setup() {
@@ -24,6 +26,7 @@ class GameState {
 
     // Initialize missiles array list
     missiles = new ArrayList<Missile>();
+	numMissiles = 0;
 
   }
 
@@ -56,8 +59,9 @@ class GameState {
     battery.display();
 
     // Add a new missile every 60 seconds (60 frames * frameRate)
-    if (frameCount % 60  == 0) {
+    if (frameCount % 60  == 0 && numMissiles < maxMissiles) {
       missiles.add(new Missile());
+	  numMissiles++;
     }
 
     // Update and draw existing missiles

@@ -1,17 +1,17 @@
 Level level;
 GameState game;
  // testing
- 
+
 void setup() {
     size(500, 500);
     noCursor();
     frameRate(30);
-    level = new Level(1, 1, 1);
+    level = new Level(1, 1, 1, 10);
     game = new GameState(
         level.getLevelNumber(),
         level.getNumCities(),
-        level.getNumBatteries()
-        
+        level.getNumBatteries(),
+        level.getNumMissles()
     );
     game.setup();
 }
