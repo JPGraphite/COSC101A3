@@ -32,32 +32,59 @@ void setup() {
 
 
     // Create a new thread to load the audio file asynchronously
-    Thread audioThread = new Thread(new AudioLoadingTask(p, "./data/soundtrack.mp3"));
+    Thread audioThread = new Thread(new AudioLoader(p, "./data/soundtrack.mp3"));
     audioThread.start();
 }
 
 void createLevels() {
-    levels.add(new Level(1, 1, 1, 1));
-    levels.add(new Level(2, 1, 1, 15));
-    levels.add(new Level(3, 1, 1, 20));
+
+    try {
+        BufferedReader reader = createReader("levels.txt");
+        String line = null;
+
+        while ((line = reader.readLine()) != null) {
+            String[] values = line.split(",");
+            if (values.length == 4) {
+                int levelNumber = Integer.parseInt(values[0].trim());
+                int numCities = Integer.parseInt(values[1].trim());
+                int numBatteries = Integer.parseInt(values[2].trim());
+                int numMissiles = Integer.parseInt(values[3].trim());
+
+                Level level = new Level(levelNumber, numCities, numBatteries, numMissiles);
+                levels.add(level);
+            }
+        }
+
+        reader.close();
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+
 }
 
 void nextLevel() {
     success.play();
     int currentLevel = level.getLevelNumber();
-    level = levels.get(currentLevel);
-    previousScore = game.getScore();
-    game = new GameState(
-        this,
-        level.getLevelNumber(),
-        level.getNumCities(),
-        level.getNumBatteries(),
-        level.getNumMissles(),
-        previousScore
-    );
-    game.setup();
-    menu = new Menu(game);
-    menu.setCurrentScreen(ScreenType.NEXT_LEVEL);
+
+    if (levels.size() > currentLevel) {
+        level = levels.get(currentLevel);
+        previousScore = game.getScore();
+        game = new GameState(
+            this,
+            level.getLevelNumber(),
+            level.getNumCities(),
+            level.getNumBatteries(),
+            level.getNumMissles(),
+            previousScore
+        );
+        game.setup();
+        menu = new Menu(game);
+        menu.setCurrentScreen(ScreenType.NEXT_LEVEL);
+    } else {
+        game.setPaused(true);
+        menu.setCurrentScreen(ScreenType.COMPLETED);
+    }
+
 }
 
 
@@ -65,7 +92,7 @@ void nextLevel() {
 
 void draw() {
 
-    if (game.getDestroyedMissileCount() >= game.getMaxMissiles()) {
+    if (game.getDestroyedMissileCount() >= game.getMaxMissiles() && !game.isPaused()) {
         nextLevel();
     }
 
@@ -76,6 +103,28 @@ void draw() {
     } else {
         menu.draw();
     }
+
+    if (menu.getCurrentScreen() == ScreenType.COMPLETED) {
+        resetGame();
+    }
+
+    if (menu.getRestarting()) {
+        menu = new Menu(game);
+    }
+}
+
+void resetGame() {
+    previousScore = game.getScore();
+    level = levels.get(0);
+    game = new GameState(
+        this,
+        level.getLevelNumber(),
+        level.getNumCities(),
+        level.getNumBatteries(),
+        level.getNumMissles(),
+        previousScore
+    );
+    game.setup();
 }
 
 void mousePressed() {
