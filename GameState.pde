@@ -9,16 +9,18 @@ class GameState {
 	private boolean paused;
 	private int numMissiles;
 	private int destroyedMissiles = 0;
+	private int previousScore;
 
   	ArrayList<Missile> missiles;
   	ArtilleryBattery battery;
 
-  GameState(int levelNumber, int numCities, int numBatteries, int maxMissiles) {
+  GameState(int levelNumber, int numCities, int numBatteries, int maxMissiles, int previousScore) {
     this.score = 0;
     this.levelNumber = levelNumber;
     this.numCities = numCities;
     this.numBatteries = numBatteries;
  	this.maxMissiles = maxMissiles;
+	this.previousScore = previousScore;
 	this.paused = true;
   }
 
@@ -41,6 +43,9 @@ class GameState {
 
 	public int getMaxMissiles() {
 		return maxMissiles;
+	}
+	public int getPreviousScore() {
+		return previousScore;
 	}
 
 	public boolean isPaused() {
@@ -71,6 +76,7 @@ class GameState {
           if (distance < laser.explosionMaxRadius) {
             iterator.remove();
 			destroyedMissiles++;
+			score++;
           }
         }
       }
@@ -101,6 +107,7 @@ class GameState {
 	  // Remove missiles that are off the screen
       if (missile.pos.y - missile.size > height) {
         missiles.remove(i);
+
       } else {
 		missile.update(); // Update the position of the missile
       	missile.display(); // Display the missile

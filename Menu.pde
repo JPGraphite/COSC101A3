@@ -49,7 +49,7 @@ class Menu {
         // Draw additional text
         fill(255);
         textSize(20);
-        text("Score: " + game.getScore(), width/2, height/2 - 50);
+        text("Score: " + game.getPreviousScore(), width/2, height/2 - 50);
     }
 
 

@@ -2,6 +2,7 @@ Level level;
 GameState game;
 Menu menu;
 ArrayList<Level> levels =new ArrayList<Level>();
+int previousScore = 0;
 
 void setup() {
     size(500, 500);
@@ -14,7 +15,8 @@ void setup() {
         level.getLevelNumber(),
         level.getNumCities(),
         level.getNumBatteries(),
-        level.getNumMissles()
+        level.getNumMissles(),
+        previousScore
     );
     game.setPaused(true);
     menu = new Menu(game);
@@ -30,11 +32,14 @@ void createLevels() {
 void nextLevel() {
     int currentLevel = level.getLevelNumber();
     level = levels.get(currentLevel);
+    previousScore = game.getScore();
+    println(previousScore);
     game = new GameState(
         level.getLevelNumber(),
         level.getNumCities(),
         level.getNumBatteries(),
-        level.getNumMissles()
+        level.getNumMissles(),
+        previousScore
     );
     game.setup();
     menu = new Menu(game);
