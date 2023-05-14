@@ -7,18 +7,13 @@ ArrayList<Level> levels = new ArrayList<Level>();
 int previousScore = 0;
 SoundFile soundtrack, success;
 boolean soundLoaded = false;
+PApplet p = this;
 
 void setup() {
     size(500, 500);
     noCursor();
     frameRate(30);
     background(0);
-    textAlign(CENTER, CENTER);
-    textSize(32);
-
-    fill(255);
-    text("Loading...", width/2, height/2);
-
     createLevels();
     level = levels.get(0);
 
@@ -34,8 +29,11 @@ void setup() {
     menu = new Menu(game);
     game.setup();
 
-}
 
+    // Create a new thread to load the audio file asynchronously
+    Thread audioThread = new Thread(new AudioLoadingTask());
+    audioThread.start();
+}
 
 void createLevels() {
     levels.add(new Level(1, 1, 1, 1));
@@ -89,9 +87,6 @@ void draw() {
 
 
 void loadSound() {
-    soundtrack = new SoundFile(this, "./data/soundtrack.mp3");
-    soundtrack.loop();
-    soundtrack.amp(0.3);
     success = new SoundFile(this, "./data/success.wav");
     success.amp(0.5);
 }
