@@ -5,7 +5,7 @@ GameState game;
 Menu menu;
 ArrayList<Level> levels = new ArrayList<Level>();
 int previousScore = 0;
-SoundFile soundtrack;
+SoundFile soundtrack, success;
 
 void setup() {
     size(500, 500);
@@ -33,6 +33,8 @@ void setup() {
     menu = new Menu(game);
     game.setup();
     soundtrack = new SoundFile(this, "./data/soundtrack.mp3");
+    success = new SoundFile(this, "./data/success.wav");
+    success.amp(0.5);
     soundtrack.loop();
     soundtrack.amp(0.5);
 
@@ -46,6 +48,7 @@ void createLevels() {
 }
 
 void nextLevel() {
+    success.play();
     int currentLevel = level.getLevelNumber();
     level = levels.get(currentLevel);
     previousScore = game.getScore();
