@@ -1,5 +1,6 @@
 enum ScreenType {
   STARTING,
   PAUSED,
-  NEXT_LEVEL;
+  NEXT_LEVEL,
+  COMPLETED;
 }
