@@ -1,4 +1,4 @@
-import processing.sound.*;
+import processing.sound.*; // Reminder to add notes about how to install this libary in the documentation
 
 Level level;
 GameState game;
