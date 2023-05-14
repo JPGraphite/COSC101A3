@@ -10,6 +10,7 @@ class Menu {
     int score;
     int level;
     ScreenType currentScreen = ScreenType.STARTING;
+    boolean restarting = false;
 
     Menu(GameState game) {
       this.game = game;
@@ -30,6 +31,10 @@ class Menu {
                 drawNextLevelScreen();
                 break;
 
+            case COMPLETED:
+                drawCompletedScreen();
+                break;
+
             default:
                 // Code for handling unknown or unsupported screen types
                 println("Unknown screen type");
@@ -45,12 +50,31 @@ class Menu {
     ScreenType getCurrentScreen() {
         return currentScreen;
     }
+    boolean getRestarting() {
+        return restarting;
+    }
 
+    void drawCompletedScreen() {
+        checkButtonHover();
+
+        background(0);
+        cursor();
+        // Draw additional text
+        fill(255);
+        textAlign(CENTER, TOP);
+        textSize(24);
+        text("Game Completed", width/2, 50);
+
+        textAlign(CENTER, CENTER);
+        textSize(20);
+        text("Level: " + game.getLevelNumber(), width/2, height/2 - 90);
+        text("Score: " + game.getScore(), width/2, height/2 - 50);
+
+        drawButton("Restart");
+    }
 
     void drawNextLevelScreen() {
         drawStartingScreen();
-
-        // Draw additional text
         fill(255);
         textSize(20);
         text("Score: " + game.getPreviousScore(), width/2, height/2 - 50);
@@ -59,14 +83,16 @@ class Menu {
 
     void drawStartingScreen() {
         checkButtonHover();
-        textAlign(CENTER, CENTER);
+
         background(0);
         cursor();
 
         // Draw additional text
+        textAlign(CENTER, CENTER);
         fill(255);
         textSize(20);
         text("Level: " + game.getLevelNumber(), width/2, height/2 - 90);
+
         drawButton("Start");
     }
 
@@ -89,7 +115,6 @@ class Menu {
         text("Game paused", width/2, 50);
         drawButton("Resume");
 
-
     }
 
     void checkButtonHover() {
@@ -108,7 +133,12 @@ class Menu {
         boolean overButton = isMouseOverButton();
         if (overButton) {
             game.setPaused(false);
-            currentScreen = ScreenType.PAUSED;
+            if (currentScreen != ScreenType.COMPLETED) {
+                currentScreen = ScreenType.PAUSED;
+            } else {
+                restarting = true;
+                currentScreen = ScreenType.STARTING;
+            }
         }
     }
 
@@ -133,5 +163,6 @@ class Menu {
         fill(currentButtonColour);
         text(text, buttonX, buttonY - 5);
     }
+
 
 }
