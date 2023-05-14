@@ -5,8 +5,7 @@ GameState game;
 Menu menu;
 ArrayList<Level> levels = new ArrayList<Level>();
 int previousScore = 0;
-SoundFile soundtrack, success;
-boolean soundLoaded = false;
+SoundFile success;
 PApplet p = this;
 
 void setup() {
@@ -28,10 +27,12 @@ void setup() {
     game.setPaused(true);
     menu = new Menu(game);
     game.setup();
+    success = new SoundFile(this, "./data/success.wav");
+    success.amp(0.5);
 
 
     // Create a new thread to load the audio file asynchronously
-    Thread audioThread = new Thread(new AudioLoadingTask());
+    Thread audioThread = new Thread(new AudioLoadingTask(p, "./data/soundtrack.mp3"));
     audioThread.start();
 }
 
@@ -64,8 +65,6 @@ void nextLevel() {
 
 void draw() {
 
-
-
     if (game.getDestroyedMissileCount() >= game.getMaxMissiles()) {
         nextLevel();
     }
@@ -77,18 +76,6 @@ void draw() {
     } else {
         menu.draw();
     }
-
-    if (!soundLoaded) {
-        // Function to run only once after the first draw()
-        loadSound();
-        soundLoaded = true;
-    }
-}
-
-
-void loadSound() {
-    success = new SoundFile(this, "./data/success.wav");
-    success.amp(0.5);
 }
 
 void mousePressed() {
