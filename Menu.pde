@@ -60,8 +60,6 @@ class Menu {
     void drawStartingScreen() {
         checkButtonHover();
         textAlign(CENTER, CENTER);
-        textSize(32);
-
         background(0);
         cursor();
 
@@ -75,7 +73,6 @@ class Menu {
     void drawPausedScreen() {
         checkButtonHover();
         textAlign(CENTER, CENTER);
-        textSize(32);
 
         background(0);
         cursor();

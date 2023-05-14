@@ -1,17 +1,28 @@
+import processing.sound.*;
+
 Level level;
 GameState game;
 Menu menu;
 ArrayList<Level> levels = new ArrayList<Level>();
 int previousScore = 0;
+SoundFile soundtrack;
 
 void setup() {
     size(500, 500);
     noCursor();
     frameRate(30);
+    background(0);
+    textAlign(CENTER, CENTER);
+    textSize(32);
+
+    fill(255);
+    text("Loading...", width/2, height/2);
+
     createLevels();
     level = levels.get(0);
 
     game = new GameState(
+        this,
         level.getLevelNumber(),
         level.getNumCities(),
         level.getNumBatteries(),
@@ -21,7 +32,12 @@ void setup() {
     game.setPaused(true);
     menu = new Menu(game);
     game.setup();
+    soundtrack = new SoundFile(this, "./data/soundtrack.mp3");
+    soundtrack.loop();
+    soundtrack.amp(0.5);
+
 }
+
 
 void createLevels() {
     levels.add(new Level(1, 1, 1, 1));
@@ -35,6 +51,7 @@ void nextLevel() {
     previousScore = game.getScore();
     println(previousScore);
     game = new GameState(
+        this,
         level.getLevelNumber(),
         level.getNumCities(),
         level.getNumBatteries(),
@@ -48,6 +65,8 @@ void nextLevel() {
 
 
 void draw() {
+
+
     if (game.getDestroyedMissileCount() >= game.getMaxMissiles()) {
         nextLevel();
     }

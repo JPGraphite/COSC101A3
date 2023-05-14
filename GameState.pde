@@ -10,18 +10,22 @@ class GameState {
 	private int numMissiles;
 	private int destroyedMissiles = 0;
 	private int previousScore;
+	SoundFile laserFire, missileHit;
+	PApplet p;
 
   	ArrayList<Missile> missiles;
   	ArtilleryBattery battery;
 
-  GameState(int levelNumber, int numCities, int numBatteries, int maxMissiles, int previousScore) {
-    this.score = 0;
+  GameState(PApplet p, int levelNumber, int numCities, int numBatteries, int maxMissiles, int previousScore) {
+    this.p = p;
+	this.score = 0;
     this.levelNumber = levelNumber;
     this.numCities = numCities;
     this.numBatteries = numBatteries;
  	this.maxMissiles = maxMissiles;
 	this.previousScore = previousScore;
 	this.paused = true;
+
   }
 
 
@@ -62,6 +66,8 @@ class GameState {
 
     // Initialize missiles array list
     missiles = new ArrayList<Missile>();
+	laserFire = new SoundFile(p, "./data/laserFire.wav");
+	missileHit = new SoundFile(p, "./data/missileHit.wav");
 	numMissiles = 0;
 
   }
@@ -75,6 +81,7 @@ class GameState {
           float distance = dist(laser.x, laser.y, missile.pos.x, missile.pos.y);
           if (distance < laser.explosionMaxRadius) {
             iterator.remove();
+			missileHit.play();
 			destroyedMissiles++;
 			score++;
           }
@@ -125,6 +132,7 @@ class GameState {
   void mouseClicked() {
     // Calculate angle between ArtilleryBattery position and mouse position
     battery.fire();
+	laserFire.play();
   }
 
   void keyPressed() {
