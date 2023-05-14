@@ -53,7 +53,6 @@ class ArtilleryBattery {
         rect(this.x, this.y, 60, 20);
         this.drawTarget();
         for (Laser laser: lasers) {
-            laser.update();
             laser.display();
         }
     }

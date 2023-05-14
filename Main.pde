@@ -69,7 +69,6 @@ void nextLevel() {
 
 void draw() {
 
-
     if (game.getDestroyedMissileCount() >= game.getMaxMissiles()) {
         nextLevel();
     }
@@ -83,7 +82,7 @@ void draw() {
     }
 }
 
-void mouseClicked() {
+void mousePressed() {
     if (!game.isPaused()) {
         game.mouseClicked();
     } else {
