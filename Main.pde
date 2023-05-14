@@ -1,12 +1,35 @@
 Level level;
 GameState game;
- // testing
+Menu menu;
+ArrayList<Level> levels =new ArrayList<Level>();
 
 void setup() {
     size(500, 500);
     noCursor();
     frameRate(30);
-    level = new Level(1, 1, 1, 10);
+    createLevels();
+    level = levels.get(0);
+
+    game = new GameState(
+        level.getLevelNumber(),
+        level.getNumCities(),
+        level.getNumBatteries(),
+        level.getNumMissles()
+    );
+    game.setPaused(true);
+    menu = new Menu(game);
+    game.setup();
+}
+
+void createLevels() {
+    levels.add(new Level(1, 1, 1, 1));
+    levels.add(new Level(2, 1, 1, 15));
+    levels.add(new Level(3, 1, 1, 20));
+}
+
+void nextLevel() {
+    int currentLevel = level.getLevelNumber();
+    level = levels.get(currentLevel);
     game = new GameState(
         level.getLevelNumber(),
         level.getNumCities(),
@@ -14,18 +37,34 @@ void setup() {
         level.getNumMissles()
     );
     game.setup();
+    menu = new Menu(game);
+    menu.setCurrentScreen(ScreenType.NEXT_LEVEL);
 }
 
+
 void draw() {
-    background(255);
-    game.update();
-    game.draw();
+    if (game.getDestroyedMissileCount() >= game.getMaxMissiles()) {
+        nextLevel();
+    }
+
+    if (!game.isPaused()) {
+        background(255);
+        game.update();
+        game.draw();
+    } else {
+        menu.draw();
+    }
 }
 
 void mouseClicked() {
-    game.mouseClicked();
+    if (!game.isPaused()) {
+        game.mouseClicked();
+    } else {
+        menu.mouseClicked();
+    }
+
 }
 
 void keyPressed() {
-    // missiles = append(missiles, new Missile());
+    game.keyPressed();
 }

@@ -1,15 +1,17 @@
 import java.util.ArrayList;
 
 class GameState {
-  int levelNumber;
-  int numCities;
-  int numBatteries;
-  int maxMissiles;
-  int numMissiles;
+  private int score = 0;
+	private int levelNumber;
+	private int numCities;
+	private int numBatteries;
+	private int maxMissiles;
+	private boolean paused;
+	private int numMissiles;
+	private int destroyedMissiles = 0;
 
-  int score;
-  ArrayList<Missile> missiles;
-  ArtilleryBattery battery;
+  	ArrayList<Missile> missiles;
+  	ArtilleryBattery battery;
 
   GameState(int levelNumber, int numCities, int numBatteries, int maxMissiles) {
     this.score = 0;
@@ -17,11 +19,40 @@ class GameState {
     this.numCities = numCities;
     this.numBatteries = numBatteries;
  	this.maxMissiles = maxMissiles;
+	this.paused = true;
   }
+
+
+	public int getScore() {
+		return score;
+	}
+
+	public int getLevelNumber() {
+		return levelNumber;
+	}
+
+	public int getNumCities() {
+		return numCities;
+	}
+
+	public int getNumBatteries() {
+		return numBatteries;
+	}
+
+	public int getMaxMissiles() {
+		return maxMissiles;
+	}
+
+	public boolean isPaused() {
+		return paused;
+	}
+
+	public int getDestroyedMissileCount() {
+		return destroyedMissiles;
+	}
 
   void setup() {
     size(500, 500); // Set the size of the game window
-    frameRate(30); // Set the frame rate of the game
     battery = new ArtilleryBattery(width / 2 - 30, height - 20);
 
     // Initialize missiles array list
@@ -39,6 +70,7 @@ class GameState {
           float distance = dist(laser.x, laser.y, missile.pos.x, missile.pos.y);
           if (distance < laser.explosionMaxRadius) {
             iterator.remove();
+			destroyedMissiles++;
           }
         }
       }
@@ -50,8 +82,6 @@ class GameState {
     // Handle input, update objects, check for collisions, etc.
     battery.update();
     checkForCollision();
-
-
   }
 
   void draw() {
@@ -76,11 +106,11 @@ class GameState {
       	missile.display(); // Display the missile
 	  }
     }
-
-
   }
 
-
+	void setPaused(boolean pause) {
+		paused = pause;
+	}
 
 
 
@@ -91,7 +121,9 @@ class GameState {
   }
 
   void keyPressed() {
-    // Handle key presses
-    // Fire counter-missiles, switch missile batteries, etc.
+     if (key == ' ') {
+		paused = !paused;
+
+	}
   }
 }
