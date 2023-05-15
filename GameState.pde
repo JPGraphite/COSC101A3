@@ -133,26 +133,38 @@ class GameState {
   }
 
   void draw() {
-    background(255); // Clear the background to white
+  background(255); // Clear the background to white
 
-	 // trigger battery display function
-    battery.display();
+  // Trigger battery display function
+  battery.display();
 
-    
-    // Update and draw existing missiles
-    for (int i = missiles.size() - 1; i >= 0; i--) {
-      Missile missile = missiles.get(i);
+  // Hardcoded city drawing
+  float citySpacing = 100; // Adjust the spacing between cities if needed
+  float cityStartX = (width - (numCities - 1) * citySpacing) / 2;
+  float cityY = height - 60; // Adjust the y-coordinate of the cities if needed
 
-	  // Remove missiles that are off the screen
-      if (missile.pos.y - missile.size > height) {
-        missiles.remove(i);
+  for (int i = 0; i < numCities; i++) {
+    float cityX = cityStartX + i * citySpacing;
+    rectMode(CENTER);
+    fill(0, 100, 200);
+    stroke(0, 100, 200);
+    rect(cityX, cityY, 80, 40);
+  }
 
-      } else {
-		missile.update(); // Update the position of the missile
-      	missile.display(); // Display the missile
-	  }
+  // Update and draw existing missiles
+  for (int i = missiles.size() - 1; i >= 0; i--) {
+    Missile missile = missiles.get(i);
+
+    // Remove missiles that are off the screen
+    if (missile.pos.y - missile.size > height) {
+      missiles.remove(i);
+    } else {
+      missile.update(); // Update the position of the missile
+      missile.display(); // Display the missile
     }
   }
+}
+
 
 	void setPaused(boolean pause) {
 		paused = pause;
