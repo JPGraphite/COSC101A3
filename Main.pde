@@ -1,4 +1,14 @@
+
+/* Sound library used for various ingame sound effects. To install in Processing follow below instructions;
+From Processing go to
+→ Sketch
+→ Import Library
+→ Add Library
+→ search for “sound” and select “Sound | Provides a simple way to work with audio”
+→ and click ↓ Install.
+*/
 import processing.sound.*;
+
 
 Level level;
 GameState game;
