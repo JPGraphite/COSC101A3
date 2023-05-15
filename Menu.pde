@@ -1,5 +1,13 @@
+/*
+    Menu class is used for displaying UI before and between games, as well as on pause
+    It takes a GameState class as a parameter, as it is requires values from this such as the level number and score
+*/
+
+
 class Menu {
     GameState game;
+
+    // Button settings for triggering start, resume and restart
     int buttonStandardColour = 255;
     int buttonHoverColour = 122;
     int currentButtonColour = 255;
@@ -7,8 +15,12 @@ class Menu {
     int buttonHeight = 40;
     int buttonX = width/2;
     int buttonY = height/2 + 50;
+
+    // Score and level variables which will be pulled from GameState
     int score;
     int level;
+
+    // Screentype enum for determining which screen to display
     ScreenType currentScreen = ScreenType.STARTING;
     boolean restarting = false;
 
@@ -17,7 +29,7 @@ class Menu {
     }
 
     void draw() {
-
+        // Switch Statement which triggers different screens dependant on currentScreen variable
         switch (currentScreen) {
             case STARTING:
                 drawStartingScreen();
@@ -53,6 +65,7 @@ class Menu {
     boolean getRestarting() {
         return restarting;
     }
+
 
     void drawCompletedScreen() {
         checkButtonHover();
@@ -116,6 +129,7 @@ class Menu {
         drawButton("Resume");
 
     }
+
 
     void checkButtonHover() {
         boolean overButton = isMouseOverButton();

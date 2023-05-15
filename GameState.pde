@@ -62,27 +62,46 @@ class GameState {
 
   void setup() {
     size(500, 500); // Set the size of the game window
+
+	// Initialise battery at the center of the screen
     battery = new ArtilleryBattery(width / 2 - 30, height - 20);
 
     // Initialize missiles array list
     missiles = new ArrayList<Missile>();
+
+	// Set up sounds files for lasers and missiles
 	laserFire = new SoundFile(p, "./data/laserFire.wav");
 	missileHit = new SoundFile(p, "./data/missileHit.wav");
 	numMissiles = 0;
 
   }
 
+	/*
+		checkForCollision() iterates over the lasers arraylist from the ArtilleryBattery class
+		checking if they collide with any missiles from the missiles ArrayList
+		If they collide, the missile is removed from the array list, triggering a sound effect.
+	*/
   void checkForCollision() {
     for (Laser laser : battery.lasers) {
+		// Check if laser is travelling, or if it's hit it's target
+		// Laser should not explode before hitting it's target
       if (laser.hasReachedTarget()) {
+
+		// Create iterator as we need to run the remove function on hit missiles
         Iterator<Missile> iterator = missiles.iterator();
         while (iterator.hasNext()) {
           Missile missile = iterator.next();
+		  // Calculate explosion radius
           float distance = dist(laser.x, laser.y, missile.pos.x, missile.pos.y);
           if (distance < laser.explosionMaxRadius) {
+
+			// If missile hit, remove it from the array list
             iterator.remove();
+			// Play explosion sound
 			missileHit.play();
+			// Increment destroyedMissiles for level complete condition
 			destroyedMissiles++;
+			// Add score ( To be updated )
 			score++;
           }
         }
@@ -91,14 +110,17 @@ class GameState {
   }
 
   void update() {
-    // Update the game state every frame
-    // Handle input, update objects, check for collisions, etc.
+    // trigger battery update function
     battery.update();
+
+	// Check for collision every update call
     checkForCollision();
   }
 
   void draw() {
     background(255); // Clear the background to white
+
+	 // trigger battery display function
     battery.display();
 
     // Add a new missile every 60 seconds (60 frames * frameRate)
