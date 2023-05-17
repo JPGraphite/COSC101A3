@@ -4,7 +4,7 @@ class Missile {
   float size; // Size of missile
   float angle; // Angle of missile
   PVector velocity;
-  PImage img;
+  PImage imgMissile;
 
   Missile() {
     // Initial velocity set to 2 for in both x and y direction
@@ -19,8 +19,8 @@ class Missile {
     velocity.mult(5); // Set speed of missile
     size = 20;
 
-    img = loadImage("missile.png");
-    img.resize(30, 30);
+    imgMissile = loadImage("missile.png");
+    imgMissile.resize(30, 30);
   }
 
   void update() {
@@ -62,7 +62,7 @@ class Missile {
     translate(pos.x, pos.y);
     rotate(velocity.heading() + PI / 2);
     tint(255, 100);
-    image(img, -size/2, -size/2); // Adjust image positioning based on size
+    image(imgMissile, -size/2, -size/2); // Adjust image positioning based on size
     noTint();
     popMatrix();
   }

@@ -17,6 +17,10 @@ class GameState {
   	ArrayList<Missile> missiles;
   	ArtilleryBattery battery;
 
+
+  float spawnInterval; // Random interval between missile spawns
+  float lastSpawnTime; // Time of the last missile spawn
+
   GameState(PApplet p, int levelNumber, int numCities, int numBatteries, int maxMissiles, int previousScore) {
     this.p = p;
 	this.score = 0;
@@ -26,7 +30,8 @@ class GameState {
  	this.maxMissiles = maxMissiles;
 	this.previousScore = previousScore;
 	this.paused = true;
-
+  this.spawnInterval = random(1, 5); // Initialize the random interval
+    this.lastSpawnTime = p.millis(); // Initialize the last spawn time
   }
 
 
@@ -112,6 +117,16 @@ class GameState {
   }
 
   void update() {
+
+     // Check if it's time to spawn a missile
+    float currentTime = p.millis();
+    if (currentTime - lastSpawnTime >= spawnInterval * 1000 && numMissiles < maxMissiles) {
+      missiles.add(new Missile());
+      numMissiles++;
+      // Update the last spawn time and generate a new random interval
+      lastSpawnTime = currentTime;
+      spawnInterval = random(1, 5);
+    }
     // trigger battery update function
     battery.update();
 
@@ -120,31 +135,38 @@ class GameState {
   }
 
   void draw() {
-    background(200); // Clear the background to white
+  background(200); // Clear the background to white
 	background.draw();
-	 // trigger battery display function
-    battery.display();
+  // Trigger battery display function
+  battery.display();
 
-    // Add a new missile every 60 seconds (60 frames * frameRate)
-    if (frameCount % 60  == 0 && numMissiles < maxMissiles) {
-      missiles.add(new Missile());
-	  numMissiles++;
-    }
+  // Hardcoded city drawing
+  float citySpacing = 100; // Adjust the spacing between cities if needed
+  float cityStartX = (width - (numCities - 1) * citySpacing) / 2;
+  float cityY = height - 60; // Adjust the y-coordinate of the cities if needed
 
-    // Update and draw existing missiles
-    for (int i = missiles.size() - 1; i >= 0; i--) {
-      Missile missile = missiles.get(i);
+  for (int i = 0; i < numCities; i++) {
+    float cityX = cityStartX + i * citySpacing;
+    rectMode(CENTER);
+    fill(0, 100, 200);
+    stroke(0, 100, 200);
+    rect(cityX, cityY, 80, 40);
+  }
 
-	  // Remove missiles that are off the screen
-      if (missile.pos.y - missile.size > height) {
-        missiles.remove(i);
+  // Update and draw existing missiles
+  for (int i = missiles.size() - 1; i >= 0; i--) {
+    Missile missile = missiles.get(i);
 
-      } else {
-		missile.update(); // Update the position of the missile
-      	missile.display(); // Display the missile
-	  }
+    // Remove missiles that are off the screen
+    if (missile.pos.y - missile.size > height) {
+      missiles.remove(i);
+    } else {
+      missile.update(); // Update the position of the missile
+      missile.display(); // Display the missile
     }
   }
+}
+
 
 	void setPaused(boolean pause) {
 		paused = pause;
