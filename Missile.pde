@@ -1,3 +1,5 @@
+/* missile image located at https://www.clipartkey.com/downpng/Tohhoo_nuke-clipart-missile-launch-transparent-background-missile-png/ */
+
 class Missile {
     PVector pos; // Position of missile
     PVector vel; // Velocity of missile
