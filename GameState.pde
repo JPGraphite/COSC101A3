@@ -16,6 +16,7 @@ class GameState {
 
   	ArrayList<Missile> missiles;
   	ArtilleryBattery battery;
+	ArrayList<City> cities;
 
 
   float spawnInterval; // Random interval between missile spawns
@@ -80,7 +81,11 @@ class GameState {
 	missileHit = new SoundFile(p, "./data/missileHit.wav");
 	numMissiles = 0;
 	background = new Background();
-
+	cities = new ArrayList<City>();
+	cities.add(new City(70, height - 50));
+	cities.add(new City(160, height - 50));
+	cities.add(new City(width - 160, height - 50));
+	cities.add(new City(width - 70, height - 50));
   }
 
 	/*
@@ -135,22 +140,28 @@ class GameState {
   }
 
   void draw() {
-  background(200); // Clear the background to white
+  	background(200); // Clear the background to white
 	background.draw();
-  // Trigger battery display function
-  battery.display();
+	// Trigger battery display function
+	battery.display();
 
-  // Hardcoded city drawing
-  float citySpacing = 100; // Adjust the spacing between cities if needed
-  float cityStartX = (width - (numCities - 1) * citySpacing) / 2;
-  float cityY = height - 60; // Adjust the y-coordinate of the cities if needed
+//   // Hardcoded city drawing
+//   float citySpacing = 100; // Adjust the spacing between cities if needed
+//   float cityStartX = (width - (numCities - 1) * citySpacing) / 2;
+//   float cityY = height - 60; // Adjust the y-coordinate of the cities if needed
 
-  for (int i = 0; i < numCities; i++) {
-    float cityX = cityStartX + i * citySpacing;
-    rectMode(CENTER);
-    fill(0, 100, 200);
-    stroke(0, 100, 200);
-    rect(cityX, cityY, 80, 40);
+//   for (int i = 0; i < numCities; i++) {
+//     float cityX = cityStartX + i * citySpacing;
+//     rectMode(CENTER);
+//     fill(0, 100, 200);
+//     stroke(0, 100, 200);
+//     rect(cityX, cityY, 80, 40);
+//   }
+	// Update and draw existing missiles
+  for (int i = cities.size() - 1; i >= 0; i--) {
+    City city = cities.get(i);
+      city.update(); // Update the position of the city
+      city.display(); // Display the city
   }
 
   // Update and draw existing missiles
