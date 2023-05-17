@@ -95,7 +95,7 @@ class Missile {
             pushMatrix();
             translate(pos.x, pos.y);
             rotate(velocity.heading() + PI / 2);
-            tint(255, 100);
+            // tint(255, 100);
             image(imgMissile, -size / 2, -size / 2); // Adjust image positioning based on size
             noTint();
             popMatrix();
