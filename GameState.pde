@@ -117,10 +117,10 @@ class GameState {
         // Trigger battery display function
         battery.display();
 
-        drawCities(cities);
-        drawMissiles(missiles);
+        drawCities();
+        drawMissiles();
 		drawAmmo();
-        checkForMissileCollisions(missiles, cities);
+        checkForMissileCollisions();
     }
 
     void spawnMissiles() {
@@ -142,7 +142,7 @@ class GameState {
         cities.add(new City(width - 70, height - 50));
     }
 
-    void drawCities(ArrayList < City > cities) {
+    void drawCities() {
         // Update and draw existing missiles
         for (int i = cities.size() - 1; i >= 0; i--) {
             City city = cities.get(i);
@@ -151,7 +151,7 @@ class GameState {
         }
     }
 
-    void drawMissiles(ArrayList < Missile > missiles) {
+    void drawMissiles() {
         // Update and draw existing missiles
         for (int i = missiles.size() - 1; i >= 0; i--) {
             Missile missile = missiles.get(i);
@@ -221,21 +221,22 @@ class GameState {
     }
 
 
-    void checkForMissileCollisions(ArrayList < Missile > missiles, ArrayList < City > cities) {
-        for (Missile missile: missiles) {
-            for (City city: cities) {
-                if (city.alive) {
-                    // Check if the missile collides with the city
-                    if (missile.getX() < city.getX() + city.getWidth() &&
-                        missile.getX() + missile.getSize() > city.getX() &&
-                        missile.getY() < city.getY() + city.getHeight() &&
-                        missile.getY() + missile.getSize() > city.getY()) {
-                        // Missile collided with the city
-                        missile.explode();
-                        city.setAlive(false);
-                    }
-                }
-            }
+    void checkForMissileCollisions() {
+		for (City city: cities) {
+			if (!city.alive) return;
+			for (Missile missile: missiles) {
+				if (missile.exploding) return;
+				// Check if the missile collides with the city
+				if (missile.getX() < city.getX() + city.getWidth() &&
+					missile.getX() + missile.getSize() > city.getX() &&
+					missile.getY() < city.getY() + city.getHeight() &&
+					missile.getY() + missile.getSize() > city.getY()) {
+					// Missile collided with the city
+					missile.explode();
+					city.setAlive(false);
+				}
+
+			}
         }
     }
 
