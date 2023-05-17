@@ -20,7 +20,7 @@ PApplet p = this;
 
 
 void setup() {
-    size(500, 500);
+    size(1000, 500);
 
     // Remove cursor as it's replaced in GameState
     noCursor();
