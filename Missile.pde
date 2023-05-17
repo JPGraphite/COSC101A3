@@ -86,7 +86,6 @@ class Missile {
                 explosionRadius++;
                 ellipse(pos.x, pos.y + size / 2, currentRadius * 2, currentRadius * 2);
             } else {
-                println("Done");
                 explodeFinished = true;
             }
         } else {
