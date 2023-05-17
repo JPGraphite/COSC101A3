@@ -65,7 +65,7 @@ class GameState {
     size(500, 500); // Set the size of the game window
 
 	// Initialise battery at the center of the screen
-    battery = new ArtilleryBattery(width / 2 - 30, height - 30);
+    battery = new ArtilleryBattery(width / 2 , height - 30);
 
     // Initialize missiles array list
     missiles = new ArrayList<Missile>();
