@@ -12,6 +12,7 @@ class GameState {
 	private int previousScore;
 	SoundFile laserFire, missileHit;
 	PApplet p;
+	Background background;
 
   	ArrayList<Missile> missiles;
   	ArtilleryBattery battery;
@@ -64,7 +65,7 @@ class GameState {
     size(500, 500); // Set the size of the game window
 
 	// Initialise battery at the center of the screen
-    battery = new ArtilleryBattery(width / 2 - 30, height - 20);
+    battery = new ArtilleryBattery(width / 2 - 30, height - 30);
 
     // Initialize missiles array list
     missiles = new ArrayList<Missile>();
@@ -73,6 +74,7 @@ class GameState {
 	laserFire = new SoundFile(p, "./data/laserFire.wav");
 	missileHit = new SoundFile(p, "./data/missileHit.wav");
 	numMissiles = 0;
+	background = new Background();
 
   }
 
@@ -118,8 +120,8 @@ class GameState {
   }
 
   void draw() {
-    background(255); // Clear the background to white
-
+    background(200); // Clear the background to white
+	background.draw();
 	 // trigger battery display function
     battery.display();
 
