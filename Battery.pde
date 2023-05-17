@@ -56,12 +56,15 @@ class ArtilleryBattery {
     }
 
     void display() {
+    // Calculate the angle between battery position and mouse position
+    float angle = atan2(mouseY - this.y, mouseX - this.x);
+
     pushMatrix();
     translate(this.x, this.y);
-    rotate(PI / 2); // Rotate by 90 degrees (PI/2 radians)
+    rotate(angle + PI); // Rotate based on the calculated angle to point towards target
 
     imageMode(CENTER);
-    image(imgBattery, 0, 0, 40, 40); // Draw the image at (0, 0) relative to the translated position
+    image(imgBattery, 0, 0, 50, 50); // Draw the image at (0, 0) relative to the translated position
 
     popMatrix();
 
@@ -71,5 +74,6 @@ class ArtilleryBattery {
         laser.display();
     }
 }
+
 
 }
