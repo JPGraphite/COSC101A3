@@ -5,6 +5,12 @@ class Missile {
   float angle; // Angle of missile
   PVector velocity;
   PImage imgMissile;
+  boolean exploding = false;
+  int explosionDuration; // Duration of the explosion in frames
+  int explosionTimer; // Timer for tracking explosion duration
+  float explosionRadius; // Radius of the explosion circle
+  float explosionMaxRadius; // Maximum radius of the explosion circle
+  boolean explodeFinished = false;
 
   Missile() {
     // Initial velocity set to 2 for in both x and y direction
@@ -21,20 +27,28 @@ class Missile {
 
     imgMissile = loadImage("missile.png");
     imgMissile.resize(30, 30);
+    explosionDuration = 60; // 60 frames (assuming 60 frames per second)
+    explosionTimer = 0;
+    explosionRadius = 0;
+    explosionMaxRadius = 20;
+  }
+
+  public float getX() {
+    return pos.x;
+  }
+
+  public float getY() {
+      return pos.y;
+  }
+
+  public float getSize() {
+    return size;
   }
 
   void update() {
+    if (exploding) return;
     // Update position of missile based on velocity
     pos.add(velocity);
-
-
-    // Reset missile position when it reaches the bottom of the screen
-    if (pos.y - size > height) {
-      pos = new PVector(random(width), 0);
-      angle = getAngle();
-      velocity = PVector.fromAngle(angle);
-      velocity.mult(5); // Set speed of missile
-    }
   }
 
   float getAngle() {
@@ -55,15 +69,34 @@ class Missile {
     return calcAngle;
   }
 
+  void explode() {
+    exploding = true;
+  }
+
+
   void display() {
-    stroke(0);
-    strokeWeight(3);
-    pushMatrix();
-    translate(pos.x, pos.y);
-    rotate(velocity.heading() + PI / 2);
-    tint(255, 100);
-    image(imgMissile, -size/2, -size/2); // Adjust image positioning based on size
-    noTint();
-    popMatrix();
+    if ( exploding) {
+      stroke(255, 0, 0);
+      fill(255, 0, 0);
+      strokeWeight(2);
+      float currentRadius = explosionRadius;
+      if (explosionRadius < explosionMaxRadius) {
+          explosionRadius++;
+          ellipse(pos.x, pos.y + size/2, currentRadius * 2, currentRadius * 2);
+      } else {
+        println("Done");
+        explodeFinished = true;
+      }
+    } else {
+      stroke(0);
+      strokeWeight(3);
+      pushMatrix();
+      translate(pos.x, pos.y);
+      rotate(velocity.heading() + PI / 2);
+      tint(255, 100);
+      image(imgMissile, -size/2, -size/2); // Adjust image positioning based on size
+      noTint();
+      popMatrix();
+    }
   }
 }

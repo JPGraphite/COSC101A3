@@ -31,7 +31,7 @@ class GameState {
  	this.maxMissiles = maxMissiles;
 	this.previousScore = previousScore;
 	this.paused = true;
-  this.spawnInterval = random(1, 5); // Initialize the random interval
+  	this.spawnInterval = random(1, 5); // Initialize the random interval
     this.lastSpawnTime = p.millis(); // Initialize the last spawn time
   }
 
@@ -145,37 +145,30 @@ class GameState {
 	// Trigger battery display function
 	battery.display();
 
-//   // Hardcoded city drawing
-//   float citySpacing = 100; // Adjust the spacing between cities if needed
-//   float cityStartX = (width - (numCities - 1) * citySpacing) / 2;
-//   float cityY = height - 60; // Adjust the y-coordinate of the cities if needed
-
-//   for (int i = 0; i < numCities; i++) {
-//     float cityX = cityStartX + i * citySpacing;
-//     rectMode(CENTER);
-//     fill(0, 100, 200);
-//     stroke(0, 100, 200);
-//     rect(cityX, cityY, 80, 40);
-//   }
 	// Update and draw existing missiles
-  for (int i = cities.size() - 1; i >= 0; i--) {
-    City city = cities.get(i);
-      city.update(); // Update the position of the city
-      city.display(); // Display the city
-  }
+	for (int i = cities.size() - 1; i >= 0; i--) {
+		City city = cities.get(i);
+		city.update(); // Update the position of the city
+		city.display(); // Display the city
+	}
 
   // Update and draw existing missiles
   for (int i = missiles.size() - 1; i >= 0; i--) {
     Missile missile = missiles.get(i);
-
+	if (missile.explodeFinished) {
+		missiles.remove(i);
+		destroyedMissiles++;
+	}
     // Remove missiles that are off the screen
-    if (missile.pos.y - missile.size > height) {
-      missiles.remove(i);
+    if (missile.pos.y + missile.size > height && !missile.exploding) {
+      missile.explode();
+
     } else {
       missile.update(); // Update the position of the missile
       missile.display(); // Display the missile
     }
   }
+  checkMissileCollisions(missiles, cities);
 }
 
 
@@ -197,5 +190,25 @@ class GameState {
 		paused = !paused;
 
 	}
+  }
+}
+
+
+void checkMissileCollisions(ArrayList<Missile> missiles, ArrayList<City> cities) {
+  for (Missile missile : missiles) {
+    for (City city : cities) {
+		if (city.alive) {
+			 // Check if the missile collides with the city
+			if (missile.getX() < city.getX() + city.getWidth() &&
+				missile.getX() + missile.getSize() > city.getX() &&
+				missile.getY() < city.getY() + city.getHeight() &&
+				missile.getY() + missile.getSize() > city.getY()) {
+				// Missile collided with the city
+				missile.explode();
+				city.setAlive(false);
+			}
+		}
+
+    }
   }
 }
