@@ -1,7 +1,10 @@
+/* image located at https://www.clipartkey.com/downpng/JbbTh_skyscraper-clipart-transparent-city-clipart-transparent/ */
+
 class City {
     float x, y;
     float cityWidth, cityHeight;
     boolean alive = true;
+    PImage imgCity;
 
     City(float x, float y) {
         this.x = x;
@@ -37,10 +40,9 @@ class City {
 
     void display() {
         if (alive) {
-            fill(0, 100, 200);
-            stroke(0, 100, 200);
-            rectMode(CENTER);
-            rect(x, y + cityHeight / 2 - 10, cityWidth, cityHeight);
+            imgCity = loadImage("city.png");
+            imageMode(CENTER);
+            image(imgCity, x, y + cityHeight / 2 - 10, cityWidth, cityHeight);
 
 
 

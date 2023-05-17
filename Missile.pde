@@ -90,14 +90,10 @@ class Missile {
                 explodeFinished = true;
             }
         } else {
-            stroke(0);
-            strokeWeight(3);
             pushMatrix();
             translate(pos.x, pos.y);
             rotate(velocity.heading() + PI / 2);
-            // tint(255, 100);
             image(imgMissile, -size / 2, -size / 2); // Adjust image positioning based on size
-            noTint();
             popMatrix();
         }
     }
