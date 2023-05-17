@@ -75,7 +75,7 @@ class GameState {
         size(500, 500); // Set the size of the game window
 
         // Initialise battery at the center of the screen
-        battery = new ArtilleryBattery(width / 2, height - 30);
+        battery = new ArtilleryBattery(width / 2, height - 30, numBatteries);
 
         // Initialize missiles array list
         missiles = new ArrayList < Missile > ();
@@ -92,6 +92,7 @@ class GameState {
 	void mouseClicked() {
         // Calculate angle between ArtilleryBattery position and mouse position
         battery.fire();
+		numBatteries--;
         laserFire.play();
     }
 
@@ -118,6 +119,7 @@ class GameState {
 
         drawCities(cities);
         drawMissiles(missiles);
+		drawAmmo();
         checkForMissileCollisions(missiles, cities);
     }
 
@@ -166,6 +168,24 @@ class GameState {
             }
         }
     }
+
+	void drawAmmo() {
+		int ammoWidth = 20; // Width of each ammo block
+		int ammoHeight = 10; // Height of each ammo block
+		int spacing = 10; // Spacing between ammo blocks
+
+
+		int startY = 10; // Y position of the first ammo block
+
+		for (int i = 0; i < numBatteries; i++) {
+			int x = width - ammoWidth - 10; // X position of the ammo blocks
+			int y = startY + (ammoHeight + spacing) * i; // Y position of each ammo block
+			stroke(0);
+			strokeWeight(0);
+			fill(150); // Set the fill color
+			rect(x, y, ammoWidth, ammoHeight); // Draw the ammo block
+		}
+	}
 
 	/*
     	checkForLaserCollision() iterates over the lasers arraylist from the ArtilleryBattery class

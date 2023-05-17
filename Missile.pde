@@ -28,7 +28,7 @@ class Missile {
         size = 20;
 
         imgMissile = loadImage("missile.png");
-        imgMissile.resize(20, 40);
+        imgMissile.resize(15, 50);
         explosionDuration = 60; // 60 frames (assuming 60 frames per second)
         explosionTimer = 0;
         explosionRadius = 0;

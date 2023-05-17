@@ -5,11 +5,13 @@ class ArtilleryBattery {
     float x; // X position of battery
     float y; // Y position of battery
     ArrayList < Laser > lasers; // List of lasers fired by the battery
+    int remainingLasers;
 
-    ArtilleryBattery(float x, float y) {
+    ArtilleryBattery(float x, float y, int laserCount) {
         // Initialize battery at the given x and y position
         this.x = x;
         this.y = y;
+        this.remainingLasers = laserCount;
         // Initialize list of lasers
         lasers = new ArrayList < Laser > ();
     }
@@ -28,6 +30,8 @@ class ArtilleryBattery {
     }
 
     void fire() {
+        if (remainingLasers <= 0 ) return;
+        remainingLasers--;
         float angle = atan2(mouseY - y, mouseX - x);
         float targetX = mouseX;
         float targetY = mouseY;
