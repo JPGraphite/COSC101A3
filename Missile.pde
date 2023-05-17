@@ -28,7 +28,7 @@ class Missile {
         size = 20;
 
         imgMissile = loadImage("missile.png");
-        imgMissile.resize(30, 30);
+        imgMissile.resize(20, 40);
         explosionDuration = 60; // 60 frames (assuming 60 frames per second)
         explosionTimer = 0;
         explosionRadius = 0;
@@ -90,14 +90,10 @@ class Missile {
                 explodeFinished = true;
             }
         } else {
-            stroke(0);
-            strokeWeight(3);
             pushMatrix();
             translate(pos.x, pos.y);
             rotate(velocity.heading() + PI / 2);
-            tint(255, 100);
             image(imgMissile, -size / 2, -size / 2); // Adjust image positioning based on size
-            noTint();
             popMatrix();
         }
     }
