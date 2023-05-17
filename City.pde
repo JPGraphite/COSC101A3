@@ -11,6 +11,7 @@ class City {
         this.y = y;
         this.cityWidth = 60;
         this.cityHeight = 40;
+        imgCity = loadImage("city.png");
     }
 
 
@@ -40,7 +41,7 @@ class City {
 
     void display() {
         if (alive) {
-            imgCity = loadImage("city.png");
+
             imageMode(CENTER);
             image(imgCity, x, y + cityHeight / 2 - 10, cityWidth, cityHeight);
 

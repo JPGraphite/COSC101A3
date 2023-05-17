@@ -91,6 +91,7 @@ class GameState {
 
 	void mouseClicked() {
         // Calculate angle between ArtilleryBattery position and mouse position
+		if ( numBatteries < 0) return;
         battery.fire();
 		numBatteries--;
         laserFire.play();
@@ -235,7 +236,6 @@ class GameState {
 					missile.explode();
 					city.setAlive(false);
 				}
-
 			}
         }
     }
