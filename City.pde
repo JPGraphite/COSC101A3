@@ -28,7 +28,7 @@ class City {
     }
 
 
-    public void setAlive(boolean value){
+    public void setAlive(boolean value) {
         alive = value;
     }
     void update() {
@@ -36,21 +36,20 @@ class City {
     }
 
     void display() {
-        if ( alive ) {
+        if (alive) {
             fill(0, 100, 200);
             stroke(0, 100, 200);
             rectMode(CENTER);
-            rect(x, y + cityHeight /2 - 10, cityWidth, cityHeight);
+            rect(x, y + cityHeight / 2 - 10, cityWidth, cityHeight);
 
 
 
-        }
-        else {
+        } else {
             fill(255, 0, 0);
             stroke(0, 100, 200);
             // Calculate the vertices of the triangle
             // Draw the triangle
-            triangle(x - cityWidth /2, y+cityHeight - 10, x+cityWidth /2, y+cityHeight - 10, x, y);
+            triangle(x - cityWidth / 2, y + cityHeight - 10, x + cityWidth / 2, y + cityHeight - 10, x, y);
         }
     }
 }
