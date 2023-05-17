@@ -1,10 +1,12 @@
-/* image located at https://www.clipartkey.com/downpng/JbbTh_skyscraper-clipart-transparent-city-clipart-transparent/ */
+/* city image located at https://www.clipartkey.com/downpng/JbbTh_skyscraper-clipart-transparent-city-clipart-transparent/ */
+/* flames image located at https://www.clipartkey.com/downpng/xwowJ_flame-fire-flames-clipart-bottom-border-transparent-free/ */
 
 class City {
     float x, y;
     float cityWidth, cityHeight;
     boolean alive = true;
     PImage imgCity;
+    PImage imgFlames;
 
     City(float x, float y) {
         this.x = x;
@@ -12,6 +14,7 @@ class City {
         this.cityWidth = 60;
         this.cityHeight = 40;
         imgCity = loadImage("city.png");
+        imgFlames = loadImage("flames.png");
     }
 
 
@@ -48,11 +51,8 @@ class City {
 
 
         } else {
-            fill(255, 0, 0);
-            stroke(0, 100, 200);
-            // Calculate the vertices of the triangle
-            // Draw the triangle
-            triangle(x - cityWidth / 2, y + cityHeight - 10, x + cityWidth / 2, y + cityHeight - 10, x, y);
+            imageMode(CENTER);
+            image(imgFlames, x, y + cityHeight / 2 - 10, cityWidth, cityHeight);
         }
     }
 }

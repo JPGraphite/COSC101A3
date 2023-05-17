@@ -1,11 +1,14 @@
 import java.util.ArrayList;
 import java.util.Iterator;
 
+/* image found at https://www.pngwing.com/en/free-png-tovsr/download */
+
 class ArtilleryBattery {
     float x; // X position of battery
     float y; // Y position of battery
     ArrayList < Laser > lasers; // List of lasers fired by the battery
     int remainingLasers;
+    PImage imgBattery;
 
     ArtilleryBattery(float x, float y, int laserCount) {
         // Initialize battery at the given x and y position
@@ -14,6 +17,7 @@ class ArtilleryBattery {
         this.remainingLasers = laserCount;
         // Initialize list of lasers
         lasers = new ArrayList < Laser > ();
+        imgBattery = loadImage("battery.png");
     }
 
     void drawTarget() {
@@ -52,12 +56,20 @@ class ArtilleryBattery {
     }
 
     void display() {
-        // Draw the battery
-        fill(0, 217, 34);
-        rect(this.x, this.y, 60, 20);
-        this.drawTarget();
-        for (Laser laser: lasers) {
-            laser.display();
-        }
+    pushMatrix();
+    translate(this.x, this.y);
+    rotate(PI / 2); // Rotate by 90 degrees (PI/2 radians)
+
+    imageMode(CENTER);
+    image(imgBattery, 0, 0, 40, 40); // Draw the image at (0, 0) relative to the translated position
+
+    popMatrix();
+
+    this.drawTarget();
+
+    for (Laser laser : lasers) {
+        laser.display();
     }
+}
+
 }
