@@ -8,6 +8,7 @@ class GameState {
     boolean paused;
     int numMissiles;
     int destroyedMissiles = 0;
+    int playerKilledMissile = 0;
     int previousScore;
     int previousHighScore;
     PApplet p;
@@ -83,6 +84,21 @@ class GameState {
         drawCities();
         drawMissiles();
 		drawAmmo();
+    }
+
+    int getScore() {
+        int scoreValForAmmo = 20;
+        int scoreValForMissilesDestroyed = 50;
+        int scoreValForCitiesAlive = 200;
+
+        for (City city : cities) {
+            if (!city.alive) continue;
+            score += scoreValForCitiesAlive;
+        }
+
+        score += numBatteries * scoreValForAmmo;
+        score += playerKilledMissile * scoreValForMissilesDestroyed;
+        return score;
     }
 
     void spawnMissiles() {
@@ -188,9 +204,10 @@ class GameState {
 							// Play explosion sound
 							missileHit.play();
 							// Increment destroyedMissiles for level complete condition
+                            playerKilledMissile++;
 							destroyedMissiles++;
 							// Add score ( To be updated )
-							score++;
+							score += 50;
 							if (iterator.hasNext()) {
 								iterator.next();
 								}
