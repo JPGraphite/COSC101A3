@@ -173,7 +173,8 @@ void updateHighScore() {
 void draw() {
 
     if (game.destroyedMissiles >= game.maxMissiles && !game.paused) {
-        int currentScore = game.score;
+
+        int currentScore = game.getScore();
         int highScore = game.highScore;
         if (currentScore > highScore) {
             level.highScore = currentScore;

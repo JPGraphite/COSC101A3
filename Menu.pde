@@ -15,6 +15,7 @@ class Menu {
     int buttonHeight = 40;
     int buttonX = width/2;
     int buttonY = height/2 + 150;
+    int loadingScore = 0;
 
     // Score and level variables which will be pulled from GameState
     int score;
@@ -82,14 +83,18 @@ class Menu {
 
     void drawNextLevelScreen() {
 
-
+        if ( loadingScore + 15 < game.previousScore ) {
+            loadingScore += 15;
+        } else {
+            loadingScore = game.previousScore;
+        }
         drawStartingScreen();
         fill(255);
         text("Next level:", width/2, height/2 - 30);
         textSize(24);
         text("Level " + (game.levelNumber-1) + " Completed!", width/2, height/2 - 210);
         textSize(20);
-        text("Your Score: " + game.previousScore, width/2, height/2 - 180);
+        text("Your Score: " + loadingScore , width/2, height/2 - 180);
         text("High Score: " + game.previousHighScore, width/2, height/2 - 150);
 
 
