@@ -8,6 +8,10 @@ From Processing go to
 → and click ↓ Install.
 */
 import processing.sound.*;
+import processing.core.PApplet;
+import processing.data.JSONArray;
+import processing.data.JSONObject;
+
 
 
 Level level;
@@ -46,7 +50,6 @@ void setup() {
     game = new GameState(
         this,
         level.getLevelNumber(),
-        level.getNumCities(),
         level.getNumBatteries(),
         level.getNumMissles(),
         previousScore
@@ -79,25 +82,23 @@ void setup() {
 */
 void createLevels() {
     try {
-        // Read the levels.txt file
-        BufferedReader reader = createReader("levels.txt");
-        String line = null;
+        // Read the levels.json file
+    BufferedReader reader = createReader("levels.json");
+    JSONArray jsonArray = new JSONArray(reader);
 
-        while ((line = reader.readLine()) != null) {
-            String[] values = line.split(",");
-            if (values.length == 4) {
-                int levelNumber = Integer.parseInt(values[0].trim());
-                int numCities = Integer.parseInt(values[1].trim());
-                int numBatteries = Integer.parseInt(values[2].trim());
-                int numMissiles = Integer.parseInt(values[3].trim());
+    for (int i = 0; i < jsonArray.size(); i++) {
+        JSONObject jsonObject = jsonArray.getJSONObject(i);
 
-                // Initialise a new level class with fetched values
-                Level level = new Level(levelNumber, numCities, numBatteries, numMissiles);
-                levels.add(level);
-            }
-        }
+        int levelNumber = jsonObject.getInt("levelNumber");
+        int numBatteries = jsonObject.getInt("numBatteries");
+        int numMissiles = jsonObject.getInt("numMissiles");
 
-        reader.close();
+        // Initialise a new level class with fetched values
+        Level level = new Level(levelNumber, numBatteries, numMissiles);
+        levels.add(level);
+    }
+
+    reader.close();
     } catch (IOException e) {
         e.printStackTrace();
     }
@@ -127,7 +128,6 @@ void nextLevel() {
         game = new GameState(
             this,
             level.getLevelNumber(),
-            level.getNumCities(),
             level.getNumBatteries(),
             level.getNumMissles(),
             previousScore
@@ -179,7 +179,6 @@ void resetGame() {
     game = new GameState(
         this,
         level.getLevelNumber(),
-        level.getNumCities(),
         level.getNumBatteries(),
         level.getNumMissles(),
         previousScore

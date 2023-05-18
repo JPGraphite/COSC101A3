@@ -3,7 +3,6 @@ import java.util.ArrayList;
 class GameState {
     int score = 0;
     int levelNumber;
-    int numCities;
     int numBatteries;
     int maxMissiles;
     boolean paused;
@@ -19,11 +18,10 @@ class GameState {
     float spawnInterval; // Random interval between missile spawns
     float lastSpawnTime; // Time of the last missile spawn
 
-    GameState(PApplet p, int levelNumber, int numCities, int numBatteries, int maxMissiles, int previousScore) {
+    GameState(PApplet p, int levelNumber, int numBatteries, int maxMissiles, int previousScore) {
         this.p = p;
         this.score = 0;
         this.levelNumber = levelNumber;
-        this.numCities = numCities;
         this.numBatteries = numBatteries;
         this.maxMissiles = maxMissiles;
         this.previousScore = previousScore;
@@ -39,10 +37,6 @@ class GameState {
 
     int getLevelNumber() {
         return levelNumber;
-    }
-
-    int getNumCities() {
-        return numCities;
     }
 
     int getNumBatteries() {
