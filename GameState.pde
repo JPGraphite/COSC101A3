@@ -12,7 +12,7 @@ class GameState {
     private int previousScore;
     SoundFile laserFire, missileHit;
     PApplet p;
-    Background background;
+
 
     ArrayList < Missile > missiles;
     ArtilleryBattery battery;
@@ -72,8 +72,6 @@ class GameState {
     }
 
     void setup() {
-        size(500, 500); // Set the size of the game window
-
         // Initialise battery at the center of the screen
         battery = new ArtilleryBattery(width / 2, height - 30, numBatteries);
 
@@ -84,7 +82,7 @@ class GameState {
         laserFire = new SoundFile(p, "./data/laserFire.wav");
         missileHit = new SoundFile(p, "./data/missileHit.wav");
         numMissiles = 0;
-        background = new Background();
+
         cities = new ArrayList < City > ();
         spawnCities();
     }
@@ -110,18 +108,15 @@ class GameState {
         spawnMissiles();
         // Check for collision every update call
         checkForLaserCollision();
+		checkForMissileCollisions();
     }
 
     void draw() {
-        background(200); // Clear the background to white
-        background.draw();
         // Trigger battery display function
         battery.display();
-
         drawCities();
         drawMissiles();
 		drawAmmo();
-        checkForMissileCollisions();
     }
 
     void spawnMissiles() {
@@ -137,10 +132,17 @@ class GameState {
     }
 
     void spawnCities() {
-        cities.add(new City(70, height - 50));
-        cities.add(new City(160, height - 50));
-        cities.add(new City(width - 160, height - 50));
-        cities.add(new City(width - 70, height - 50));
+		float cityWidth = 80;
+		float cityHeight = 60;
+		for (int i = 1; i < 4; i++) {
+			float x = i * 140 - cityWidth;
+			cities.add(new City(x , height - 40,cityWidth,cityHeight));
+		}
+
+		for (int i = 1; i < 4; i++) {
+			float x = i * 140;
+			cities.add(new City(width - x , height - 40,cityWidth, cityHeight));
+		}
     }
 
     void drawCities() {
@@ -161,8 +163,9 @@ class GameState {
                 destroyedMissiles++;
             }
             // Remove missiles that are off the screen
-            if (missile.pos.y + missile.size > height && !missile.exploding) {
-                missile.explode();
+            if (missile.pos.y + missile.missileHeight > height && !missile.exploding) {
+                missile.explode(missile.pos.x, height - missile.missileHeight /2);
+				missileHit.play();
             } else {
                 missile.update(); // Update the position of the missile
                 missile.display(); // Display the missile
@@ -204,18 +207,30 @@ class GameState {
                 while (iterator.hasNext()) {
                     Missile missile = iterator.next();
                     // Calculate explosion radius
-                    float distance = dist(laser.x, laser.y, missile.pos.x, missile.pos.y);
-                    if (distance < laser.explosionMaxRadius) {
+					PVector[] points = missile.getCoords();
 
-                        // If missile hit, remove it from the array list
-                        iterator.remove();
-                        // Play explosion sound
-                        missileHit.play();
-                        // Increment destroyedMissiles for level complete condition
-                        destroyedMissiles++;
-                        // Add score ( To be updated )
-                        score++;
-                    }
+					for (int i = 0; i < points.length; i++) {
+						PVector point = points[i];
+						// Perform operations on each point
+						float distance = dist(laser.x, laser.y, point.x, point.y);
+						if (distance < laser.explosionMaxRadius) {
+
+							// If missile hit, remove it from the array list
+							iterator.remove();
+							// Play explosion sound
+							missileHit.play();
+							// Increment destroyedMissiles for level complete condition
+							destroyedMissiles++;
+							// Add score ( To be updated )
+							score++;
+							if (iterator.hasNext()) {
+								iterator.next();
+								}
+							else {
+								break;
+							}
+						}
+					}
                 }
             }
         }
@@ -223,21 +238,32 @@ class GameState {
 
 
     void checkForMissileCollisions() {
-		for (City city: cities) {
-			if (!city.alive) return;
-			for (Missile missile: missiles) {
-				if (missile.exploding) return;
-				// Check if the missile collides with the city
-				if (missile.getX() < city.getX() + city.getWidth() &&
-					missile.getX() + missile.getSize() > city.getX() &&
-					missile.getY() < city.getY() + city.getHeight() &&
-					missile.getY() + missile.getSize() > city.getY()) {
-					// Missile collided with the city
-					missile.explode();
+    for (City city : cities) {
+        if (!city.alive) continue;
+        for (Missile missile : missiles) {
+            if (missile.exploding) continue;
+
+			float centerOfCityX = city.getX() + city.cityWidth /2;
+			float centerOfCityY = city.getY() - city.cityHeight /2;
+
+			float overlapThreshold = missile.explosionMaxRadius + 20;
+
+			PVector[] points = missile.getCoords();
+			for (int i = 0; i < points.length; i++) {
+				PVector point = points[i];
+				// Perform operations on each point
+				float distance = dist(centerOfCityX, centerOfCityY, point.x, point.y);
+				 if (distance <= overlapThreshold) {
+					// Collision occurred
+					missile.explode(point.x, point.y);
+					missileHit.play();
 					city.setAlive(false);
-				}
+            	}
 			}
+
         }
     }
+}
+
 
 }

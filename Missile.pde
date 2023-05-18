@@ -3,7 +3,8 @@
 class Missile {
     PVector pos; // Position of missile
     PVector vel; // Velocity of missile
-    float size; // Size of missile
+    int missileHeight;
+    int missileWidth;
     float angle; // Angle of missile
     PVector velocity;
     PImage imgMissile;
@@ -25,10 +26,11 @@ class Missile {
         // Set speed and size of missile
 
         velocity.mult(5); // Set speed of missile
-        size = 20;
+        missileHeight = 50;
+        missileWidth = 15;
 
         imgMissile = loadImage("missile.png");
-        imgMissile.resize(15, 50);
+        imgMissile.resize(missileWidth, missileHeight);
         explosionDuration = 60; // 60 frames (assuming 60 frames per second)
         explosionTimer = 0;
         explosionRadius = 0;
@@ -43,9 +45,27 @@ class Missile {
         return pos.y;
     }
 
-    public float getSize() {
-        return size;
+    PVector[] getCoords() {
+      float rotation = getAngle();
+
+      PVector topLeft = getPointRotated( pos.x, pos.y, rotation, -missileWidth/2, missileHeight/2);
+      PVector topRight = getPointRotated( pos.x + missileWidth, pos.y, rotation, -missileWidth/2, missileHeight/2);
+      PVector bottomRight = getPointRotated( pos.x + missileWidth, pos.y + missileHeight, rotation, -missileWidth/2, missileHeight/2);
+      PVector bottomLeft = getPointRotated( pos.x, pos.y + missileHeight, rotation, -missileWidth/2, missileHeight/2);
+      PVector[] points = {topLeft, topRight, bottomRight, bottomLeft};
+      return points;
     }
+
+
+    PVector getPointRotated(float X,float Y,float R,float Xos,float Yos) {
+      //The rotated position of this corner in world coordinates
+      float rotatedX = X + (Xos  * cos(R)) - (Yos * sin(R));
+      float rotatedY = Y + (Xos  * sin(R)) + (Yos * cos(R));
+      PVector point = new PVector(rotatedX, rotatedY);
+      return point;
+    }
+
+
 
     void update() {
         if (exploding) return;
@@ -71,9 +91,11 @@ class Missile {
         return calcAngle;
     }
 
-    void explode() {
+    void explode(float explodePointX, float explodePointY) {
         exploding = true;
-    }
+        pos.x = explodePointX;
+        pos.y = explodePointY;
+      }
 
 
     void display() {
@@ -84,7 +106,7 @@ class Missile {
             float currentRadius = explosionRadius;
             if (explosionRadius < explosionMaxRadius) {
                 explosionRadius++;
-                ellipse(pos.x, pos.y + size / 2, currentRadius * 2, currentRadius * 2);
+                ellipse(pos.x , pos.y , currentRadius * 2, currentRadius * 2);
             } else {
                 explodeFinished = true;
             }
@@ -92,7 +114,8 @@ class Missile {
             pushMatrix();
             translate(pos.x, pos.y);
             rotate(velocity.heading() + PI / 2);
-            image(imgMissile, -size / 2, -size / 2); // Adjust image positioning based on size
+            imageMode(CENTER);
+            image(imgMissile, -missileWidth / 2, -missileHeight / 2); // Adjust image positioning based on size
             popMatrix();
         }
     }

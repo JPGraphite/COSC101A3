@@ -8,11 +8,11 @@ class City {
     PImage imgCity;
     PImage imgFlames;
 
-    City(float x, float y) {
+    City(float x, float y, float cityWidth, float cityHeight) {
         this.x = x;
         this.y = y;
-        this.cityWidth = 60;
-        this.cityHeight = 40;
+        this.cityWidth = cityWidth;
+        this.cityHeight = cityHeight;
         imgCity = loadImage("city.png");
         imgFlames = loadImage("flames.png");
     }
@@ -45,14 +45,14 @@ class City {
     void display() {
         if (alive) {
 
-            imageMode(CENTER);
-            image(imgCity, x, y + cityHeight / 2 - 10, cityWidth, cityHeight);
+            imageMode(CORNER);
+            image(imgCity, x, y - cityHeight / 2, cityWidth, cityHeight);
 
 
 
         } else {
-            imageMode(CENTER);
-            image(imgFlames, x, y + cityHeight / 2 - 10, cityWidth, cityHeight);
+            imageMode(CORNER);
+            image(imgFlames, x, y - cityHeight / 2, cityWidth, cityHeight);
         }
     }
 }
