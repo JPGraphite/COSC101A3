@@ -36,11 +36,11 @@ class Missile {
         explosionMaxRadius = 20;
     }
 
-    public float getX() {
+    float getX() {
         return pos.x;
     }
 
-    public float getY() {
+    float getY() {
         return pos.y;
     }
 

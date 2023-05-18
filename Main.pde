@@ -19,6 +19,7 @@ SoundFile success;
 PApplet p = this;
 Background background;
 PImage imgCity, imgFlames, imgBattery, imgMissile, imgBackground;
+SoundFile laserFire, missileHit;
 
 
 void setup() {
@@ -29,7 +30,9 @@ void setup() {
     imgBattery = loadImage("battery.png");
     imgMissile = loadImage("missile.png");
     imgBackground = loadImage("background.jpg");
-
+    // Set up sounds files for lasers and missiles
+    laserFire = new SoundFile(p, "./data/laserFire.wav");
+    missileHit = new SoundFile(p, "./data/missileHit.wav");
     // Remove cursor as it's replaced in GameState
     noCursor();
     frameRate(30);

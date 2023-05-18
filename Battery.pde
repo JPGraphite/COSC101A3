@@ -8,7 +8,6 @@ class ArtilleryBattery {
     float y; // Y position of battery
     ArrayList < Laser > lasers; // List of lasers fired by the battery
     int remainingLasers;
-    PImage imgBattery;
 
     ArtilleryBattery(float x, float y, int laserCount) {
         // Initialize battery at the given x and y position
@@ -17,7 +16,6 @@ class ArtilleryBattery {
         this.remainingLasers = laserCount;
         // Initialize list of lasers
         lasers = new ArrayList < Laser > ();
-        imgBattery = loadImage("battery.png");
     }
 
     void drawTarget() {
@@ -56,24 +54,24 @@ class ArtilleryBattery {
     }
 
     void display() {
-    // Calculate the angle between battery position and mouse position
-    float angle = atan2(mouseY - this.y, mouseX - this.x);
+        // Calculate the angle between battery position and mouse position
+        float angle = atan2(mouseY - this.y, mouseX - this.x);
 
-    pushMatrix();
-    translate(this.x, this.y);
-    rotate(angle + PI); // Rotate based on the calculated angle to point towards target
+        pushMatrix();
+        translate(this.x, this.y);
+        rotate(angle + PI); // Rotate based on the calculated angle to point towards target
 
-    imageMode(CENTER);
-    image(imgBattery, 0, 0, 50, 50); // Draw the image at (0, 0) relative to the translated position
+        imageMode(CENTER);
+        image(imgBattery, 0, 0, 50, 50); // Draw the image at (0, 0) relative to the translated position
 
-    popMatrix();
+        popMatrix();
 
-    this.drawTarget();
+        this.drawTarget();
 
-    for (Laser laser : lasers) {
-        laser.display();
+        for (Laser laser : lasers) {
+            laser.display();
+        }
     }
-}
 
 
 }

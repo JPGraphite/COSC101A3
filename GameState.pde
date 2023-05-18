@@ -1,19 +1,16 @@
 import java.util.ArrayList;
 
 class GameState {
-    private int score = 0;
-    private int levelNumber;
-    private int numCities;
-    private int numBatteries;
-    private int maxMissiles;
-    private boolean paused;
-    private int numMissiles;
-    private int destroyedMissiles = 0;
-    private int previousScore;
-    SoundFile laserFire, missileHit;
+    int score = 0;
+    int levelNumber;
+    int numCities;
+    int numBatteries;
+    int maxMissiles;
+    boolean paused;
+    int numMissiles;
+    int destroyedMissiles = 0;
+    int previousScore;
     PApplet p;
-
-
     ArrayList < Missile > missiles;
     ArtilleryBattery battery;
     ArrayList < City > cities;
@@ -36,34 +33,34 @@ class GameState {
     }
 
 
-    public int getScore() {
+    int getScore() {
         return score;
     }
 
-    public int getLevelNumber() {
+    int getLevelNumber() {
         return levelNumber;
     }
 
-    public int getNumCities() {
+    int getNumCities() {
         return numCities;
     }
 
-    public int getNumBatteries() {
+    int getNumBatteries() {
         return numBatteries;
     }
 
-    public int getMaxMissiles() {
+    int getMaxMissiles() {
         return maxMissiles;
     }
-    public int getPreviousScore() {
+    int getPreviousScore() {
         return previousScore;
     }
 
-    public boolean isPaused() {
+    boolean isPaused() {
         return paused;
     }
 
-    public int getDestroyedMissileCount() {
+    int getDestroyedMissileCount() {
         return destroyedMissiles;
     }
 
@@ -78,9 +75,7 @@ class GameState {
         // Initialize missiles array list
         missiles = new ArrayList < Missile > ();
 
-        // Set up sounds files for lasers and missiles
-        laserFire = new SoundFile(p, "./data/laserFire.wav");
-        missileHit = new SoundFile(p, "./data/missileHit.wav");
+
         numMissiles = 0;
 
         cities = new ArrayList < City > ();
@@ -214,9 +209,11 @@ class GameState {
 						// Perform operations on each point
 						float distance = dist(laser.x, laser.y, point.x, point.y);
 						if (distance < laser.explosionMaxRadius) {
-
 							// If missile hit, remove it from the array list
 							iterator.remove();
+
+							// Ensure duplicate sounds not playing
+							missileHit.stop();
 							// Play explosion sound
 							missileHit.play();
 							// Increment destroyedMissiles for level complete condition

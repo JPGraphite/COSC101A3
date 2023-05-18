@@ -17,7 +17,7 @@ class AudioLoader implements Runnable {
   }
 
 
-  public void run() {
+  void run() {
     audio = new SoundFile(p, filepath);
     audio.amp(amp);
     if (playType.equals("loop")) {
