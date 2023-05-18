@@ -18,11 +18,17 @@ int previousScore = 0;
 SoundFile success;
 PApplet p = this;
 Background background;
+PImage imgCity, imgFlames, imgBattery, imgMissile, imgBackground;
 
 
 void setup() {
     size(1000, 500);
     background(0);
+    imgCity = loadImage("city.png");
+    imgFlames = loadImage("flames.png");
+    imgBattery = loadImage("battery.png");
+    imgMissile = loadImage("missile.png");
+    imgBackground = loadImage("background.jpg");
 
     // Remove cursor as it's replaced in GameState
     noCursor();

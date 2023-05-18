@@ -5,7 +5,6 @@ class Background {
   float bottomHeight = 20;
   float[] terrain;
   float terrainScale = 0.02;
-  PImage imgBackground;
 
   Background() {
     setup();
@@ -13,7 +12,7 @@ class Background {
 
   void setup() {
     smooth();
-    imgBackground = loadImage("background.jpg");
+
     for (int i = 0; i < ashCount; i++) {
       ashes[i] = new Ash(random(width), random(height), random(1, 3));
     }
@@ -32,9 +31,9 @@ class Background {
   }
 
   void draw() {
-    imageMode(CORNER); 
+    imageMode(CORNER);
     image(imgBackground, 0, 0, width, height);
-    
+
     // Draw terrain background
     noStroke();
     for (int i = 0; i < width; i++) {

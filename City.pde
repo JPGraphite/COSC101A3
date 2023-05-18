@@ -5,16 +5,13 @@ class City {
     float x, y;
     float cityWidth, cityHeight;
     boolean alive = true;
-    PImage imgCity;
-    PImage imgFlames;
 
     City(float x, float y, float cityWidth, float cityHeight) {
         this.x = x;
         this.y = y;
         this.cityWidth = cityWidth;
         this.cityHeight = cityHeight;
-        imgCity = loadImage("city.png");
-        imgFlames = loadImage("flames.png");
+
     }
 
 

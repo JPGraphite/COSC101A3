@@ -7,7 +7,6 @@ class Missile {
     int missileWidth;
     float angle; // Angle of missile
     PVector velocity;
-    PImage imgMissile;
     boolean exploding = false;
     int explosionDuration; // Duration of the explosion in frames
     int explosionTimer; // Timer for tracking explosion duration
@@ -29,7 +28,7 @@ class Missile {
         missileHeight = 50;
         missileWidth = 15;
 
-        imgMissile = loadImage("missile.png");
+
         imgMissile.resize(missileWidth, missileHeight);
         explosionDuration = 60; // 60 frames (assuming 60 frames per second)
         explosionTimer = 0;
