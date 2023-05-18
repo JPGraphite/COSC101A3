@@ -69,26 +69,38 @@ class Missile {
 
     }
 
+    /*
+    getCoords() is used to find the 4 corners of the missile after it's rotated
+    This is used for collision detection
+    */
     PVector[] getCoords() {
+      // get current missile rotation
         float rotation = velocity.heading() + PI / 2;
+        // Get half missile height and width, used to determine distances from center
         float halfMissileHeight = missileHeight/2;
         float halfMissileWidth = missileWidth/2;
+
+        // Initial x and y coords used as base for rotation
         float initialX = pos.x;
         float initialY = pos.y;
-
+        // Get cos and sin of current rotation
         float cosOfRotation = cos(rotation);
         float sinOfRotation = sin(rotation);
+
+        // Calculate distances we need to move from our current x and y coordinates
         float xToMove = -halfMissileWidth * cosOfRotation - halfMissileHeight * sinOfRotation;
         float yToMove = -halfMissileWidth * sinOfRotation + halfMissileHeight * cosOfRotation;
         float xToMove2 =  halfMissileWidth * cosOfRotation - halfMissileHeight * sinOfRotation;
         float yToMove2 =  halfMissileWidth * sinOfRotation + halfMissileHeight * cosOfRotation;
 
+        // Calculate new postions based off of the current position and the distance we need to move
         PVector topLeft = new PVector(initialX + xToMove, initialY + yToMove);
         PVector topRight = new PVector(initialX + xToMove2, initialY + yToMove2);
         PVector bottomLeft = new PVector(initialX - xToMove, initialY - yToMove);
         PVector bottomRight = new PVector(initialX - xToMove2, initialY - yToMove2);
+
+        // Add points to array and return
         PVector[] points = {topLeft, topRight, bottomRight, bottomLeft};
-        // Returns four points in clockwise order starting from the top left.
         return points;
     }
 
