@@ -17,20 +17,22 @@ ArrayList<Level> levels = new ArrayList<Level>();
 int previousScore = 0;
 SoundFile success;
 PApplet p = this;
+Background background;
 
 
 void setup() {
     size(1000, 500);
+    background(0);
 
     // Remove cursor as it's replaced in GameState
     noCursor();
     frameRate(30);
-    background(0);
+
 
     // Initialise levels arraylist
     createLevels();
     level = levels.get(0);
-
+    background = new Background();
     // Initialise game with first level
     game = new GameState(
         this,
@@ -146,7 +148,7 @@ void draw() {
     }
 
     if (!game.isPaused()) {
-        background(255);
+        background.draw();
         game.update();
         game.draw();
     } else {
