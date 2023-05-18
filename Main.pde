@@ -157,6 +157,7 @@ void draw() {
     }
 
     if (!game.isPaused()) {
+        noCursor();
         background.draw();
         game.update();
         game.draw();

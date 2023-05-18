@@ -22,7 +22,15 @@ class ArtilleryBattery {
         // Draw a target at the location of the mouse
         noFill();
         strokeWeight(1);
-        stroke(0);
+        if( remainingLasers > 0) {
+            stroke(0);
+        } else {
+
+            stroke(255, 0, 0);
+            line(mouseX - 10, mouseY -10, mouseX +10, mouseY +10);
+            line(mouseX + 10, mouseY - 10, mouseX -10, mouseY +10);
+        }
+
         point(mouseX, mouseY);
         ellipse(mouseX, mouseY, 20, 20);
         line(mouseX - 15, mouseY, mouseX - 5, mouseY);

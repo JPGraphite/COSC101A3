@@ -85,6 +85,7 @@ class Ash {
 
   void display() {
     stroke(0);
+    strokeWeight(1);
     fill(85, 85, 85);
     ellipse(x, y, 2.5, 2.5);
   }
