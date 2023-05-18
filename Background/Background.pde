@@ -24,10 +24,10 @@ class Background {
       ashes[i].display();
       ashes[i].update();
 
-      if (ashes[i].getY() > height) {
+      if (ashes[i].y > height) {
         ashes[i].resetY();
       }
-      if (ashes[i].getX() < 0) {
+      if (ashes[i].x < 0) {
         ashes[i].resetX(0);
       }
     }

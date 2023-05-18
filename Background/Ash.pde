@@ -10,14 +10,6 @@ class Ash {
     this.yMove = yMove;
   }
 
-  float getX() {
-    return x;
-  }
-
-  float getY() {
-    return y;
-  }
-
   void resetX(float maxX) {
     x = maxX;
   }

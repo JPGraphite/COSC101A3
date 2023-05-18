@@ -14,7 +14,7 @@ class Menu {
     int buttonWidth = 120;
     int buttonHeight = 40;
     int buttonX = width/2;
-    int buttonY = height/2 + 50;
+    int buttonY = height/2 + 150;
 
     // Score and level variables which will be pulled from GameState
     int score;
@@ -59,13 +59,6 @@ class Menu {
         currentScreen = type;
     }
 
-    ScreenType getCurrentScreen() {
-        return currentScreen;
-    }
-    boolean getRestarting() {
-        return restarting;
-    }
-
 
     void drawCompletedScreen() {
         checkButtonHover();
@@ -80,17 +73,26 @@ class Menu {
 
         textAlign(CENTER, CENTER);
         textSize(20);
-        text("Level: " + game.getLevelNumber(), width/2, height/2 - 90);
-        text("Score: " + game.getScore(), width/2, height/2 - 50);
+        text("Level: " + game.levelNumber, width/2, height/2 - 90);
+        text("High Score: " + game.highScore, width/2, height/2 - 60);
+        text("Score: " + game.score, width/2, height/2 - 30);
 
         drawButton("Restart");
     }
 
     void drawNextLevelScreen() {
+
+
         drawStartingScreen();
         fill(255);
+        text("Next level:", width/2, height/2 - 30);
+        textSize(24);
+        text("Level " + (game.levelNumber-1) + " Completed!", width/2, height/2 - 210);
         textSize(20);
-        text("Score: " + game.getPreviousScore(), width/2, height/2 - 50);
+        text("Your Score: " + game.previousScore, width/2, height/2 - 180);
+        text("High Score: " + game.previousHighScore, width/2, height/2 - 150);
+
+
     }
 
 
@@ -104,7 +106,8 @@ class Menu {
         textAlign(CENTER, CENTER);
         fill(255);
         textSize(20);
-        text("Level: " + game.getLevelNumber(), width/2, height/2 - 90);
+        text("Level: " + game.levelNumber, width/2, height/2 - 0);
+        text("High Score: " + game.highScore, width/2, height/2 +30);
 
         drawButton("Start");
     }
@@ -120,8 +123,9 @@ class Menu {
         // Draw additional text
         fill(255);
         textSize(20);
-        text("Level: " + game.getLevelNumber(), width/2, height/2 - 90);
-        text("Score: " + game.getScore(), width/2, height/2 - 50);
+        text("Level: " + game.levelNumber, width/2, height/2 - 90);
+        text("High Score: " + game.highScore, width/2, height/2 - 60);
+        text("Score: " + game.score, width/2, height/2 - 30);
 
         // Draw "Paused" heading in white
         fill(255);
@@ -157,8 +161,8 @@ class Menu {
     }
 
     boolean isMouseOverButton() {
-        if (mouseX >= width/2 - 60 && mouseX <= width/2 + 60 &&
-            mouseY >= height/2 + 30 && mouseY <= height/2 + 70) {
+        if (mouseX >= buttonX - buttonWidth/2 && mouseX <= buttonX + buttonWidth/2 &&
+            mouseY >= buttonY - buttonHeight/2 && mouseY <= buttonY + buttonHeight/2) {
             return true;
         } else {
             return false;

@@ -36,14 +36,6 @@ class Missile {
         explosionMaxRadius = 20;
     }
 
-    float getX() {
-        return pos.x;
-    }
-
-    float getY() {
-        return pos.y;
-    }
-
     void update() {
         if (exploding) return;
         // Update position of missile based on velocity

@@ -19,6 +19,7 @@ GameState game;
 Menu menu;
 ArrayList<Level> levels = new ArrayList<Level>();
 int previousScore = 0;
+int previousHighScore = 0;
 SoundFile success;
 PApplet p = this;
 Background background;
@@ -49,10 +50,9 @@ void setup() {
     // Initialise game with first level
     game = new GameState(
         this,
-        level.getLevelNumber(),
-        level.getNumBatteries(),
-        level.getNumMissles(),
-        previousScore
+        level,
+        previousScore,
+        level.highScore
     );
 
     // Start game in paused state to show the menu
@@ -92,9 +92,10 @@ void createLevels() {
         int levelNumber = jsonObject.getInt("levelNumber");
         int numBatteries = jsonObject.getInt("numBatteries");
         int numMissiles = jsonObject.getInt("numMissiles");
+        int highScore = jsonObject.getInt("highScore");
 
         // Initialise a new level class with fetched values
-        Level level = new Level(levelNumber, numBatteries, numMissiles);
+        Level level = new Level(levelNumber, numBatteries, numMissiles, highScore);
         levels.add(level);
     }
 
@@ -116,21 +117,21 @@ void nextLevel() {
     success.play();
 
     // Grab the current level number used for fetching next level
-    int currentLevel = level.getLevelNumber();
+    int currentLevel = level.levelNumber;
 
     // Check if another level exists
     if (levels.size() > currentLevel) {
         // Fetch the next level object
         level = levels.get(currentLevel);
         // Store the score for the current game, for displaying on the success screen
-        previousScore = game.getScore();
+        previousScore = game.score;
+        previousHighScore = game.highScore;
         // Update GameState
         game = new GameState(
             this,
-            level.getLevelNumber(),
-            level.getNumBatteries(),
-            level.getNumMissles(),
-            previousScore
+            level,
+            previousScore,
+            previousHighScore
         );
         game.setup();
 
@@ -147,16 +148,41 @@ void nextLevel() {
 
 }
 
+void updateHighScore() {
 
+    // Write the updated levels to levels.json file
+    JSONArray updatedJsonArray = new JSONArray();
+
+    for (Level level : levels) {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.setInt("levelNumber", level.levelNumber);
+        jsonObject.setInt("numBatteries", level.numBatteries);
+        jsonObject.setInt("numMissiles", level.numMissiles);
+        jsonObject.setInt("highScore", level.highScore);
+
+        updatedJsonArray.append(jsonObject);
+    }
+
+    PrintWriter writer = createWriter("levels.json");
+    writer.print(updatedJsonArray);
+    writer.flush();
+    writer.close();
+}
 
 
 void draw() {
 
-    if (game.getDestroyedMissileCount() >= game.getMaxMissiles() && !game.isPaused()) {
+    if (game.destroyedMissiles >= game.maxMissiles && !game.paused) {
+        int currentScore = game.score;
+        int highScore = game.highScore;
+        if (currentScore > highScore) {
+            level.highScore = currentScore;
+            updateHighScore();
+        }
         nextLevel();
     }
 
-    if (!game.isPaused()) {
+    if (!game.paused) {
         noCursor();
         background.draw();
         game.update();
@@ -165,30 +191,32 @@ void draw() {
         menu.draw();
     }
 
-    if (menu.getCurrentScreen() == ScreenType.COMPLETED) {
+    if (menu.currentScreen == ScreenType.COMPLETED) {
         resetGame();
     }
 
-    if (menu.getRestarting()) {
+    if (menu.restarting) {
         menu = new Menu(game);
     }
 }
 
 void resetGame() {
-    previousScore = game.getScore();
     level = levels.get(0);
+    // Store the score for the current game, for displaying on the success screen
+    previousScore = game.score;
+    previousHighScore = game.highScore;
+    // Update GameState
     game = new GameState(
         this,
-        level.getLevelNumber(),
-        level.getNumBatteries(),
-        level.getNumMissles(),
-        previousScore
+        level,
+        previousScore,
+        previousHighScore
     );
     game.setup();
 }
 
 void mousePressed() {
-    if (!game.isPaused()) {
+    if (!game.paused) {
         game.mouseClicked();
     } else {
         menu.mouseClicked();
@@ -198,7 +226,7 @@ void mousePressed() {
 
 void keyPressed() {
     // Prevent paused screen functionality between levels
-    if(game.isPaused() && menu.getCurrentScreen() != ScreenType.PAUSED) return;
+    if(game.paused && menu.currentScreen != ScreenType.PAUSED) return;
 
     game.keyPressed();
 }

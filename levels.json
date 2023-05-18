@@ -1,22 +1,26 @@
 [
   {
-    "levelNumber": 1,
+    "highScore": 1,
     "numBatteries": 3,
-    "numMissiles": 1
+    "numMissiles": 1,
+    "levelNumber": 1
   },
   {
-    "levelNumber": 2,
+    "highScore": 2,
     "numBatteries": 10,
-    "numMissiles": 2
+    "numMissiles": 2,
+    "levelNumber": 2
   },
   {
-    "levelNumber": 3,
+    "highScore": 0,
     "numBatteries": 4,
-    "numMissiles": 15
+    "numMissiles": 15,
+    "levelNumber": 3
   },
   {
-    "levelNumber": 4,
+    "highScore": 0,
     "numBatteries": 4,
-    "numMissiles": 15
+    "numMissiles": 15,
+    "levelNumber": 4
   }
 ]

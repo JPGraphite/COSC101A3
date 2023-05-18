@@ -14,24 +14,6 @@ class City {
 
     }
 
-
-    float getX() {
-        return x;
-    }
-
-    float getY() {
-        return y;
-    }
-
-    float getWidth() {
-        return cityWidth;
-    }
-
-    float getHeight() {
-        return cityHeight;
-    }
-
-
     void setAlive(boolean value) {
         alive = value;
     }
@@ -41,12 +23,8 @@ class City {
 
     void display() {
         if (alive) {
-
             imageMode(CORNER);
             image(imgCity, x, y - cityHeight / 2, cityWidth, cityHeight);
-
-
-
         } else {
             imageMode(CORNER);
             image(imgFlames, x, y - cityHeight / 2, cityWidth, cityHeight);

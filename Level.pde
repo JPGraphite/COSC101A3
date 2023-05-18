@@ -2,26 +2,13 @@ class Level {
     int levelNumber;
     int numBatteries;
     int numMissiles;
+    int highScore;
 
-    Level(int levelNumber,  int numBatteries, int numMissiles) {
+    Level(int levelNumber,  int numBatteries, int numMissiles, int highScore) {
         this.levelNumber = levelNumber;
         this.numBatteries = numBatteries;
         this.numMissiles = numMissiles;
-
-    }
-
-    int getLevelNumber() {
-        return this.levelNumber;
-    }
-
-
-
-    int getNumBatteries() {
-        return this.numBatteries;
-    }
-
-    int getNumMissles() {
-        return this.numMissiles;
+        this.highScore = highScore;
     }
 
 
