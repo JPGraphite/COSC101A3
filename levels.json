@@ -1,0 +1,22 @@
+[
+  {
+    "levelNumber": 1,
+    "numBatteries": 3,
+    "numMissiles": 1
+  },
+  {
+    "levelNumber": 2,
+    "numBatteries": 10,
+    "numMissiles": 2
+  },
+  {
+    "levelNumber": 3,
+    "numBatteries": 4,
+    "numMissiles": 15
+  },
+  {
+    "levelNumber": 4,
+    "numBatteries": 4,
+    "numMissiles": 15
+  }
+]
