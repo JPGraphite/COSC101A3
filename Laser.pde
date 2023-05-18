@@ -34,15 +34,6 @@ class Laser {
         size = 3;
     }
 
-
-    boolean isExploded() {
-        return exploded;
-    }
-
-    boolean hasReachedTarget() {
-        return reachedTarget;
-    }
-
     void update() {
         if (!exploded) {
             // Check if laser has reached the target

@@ -55,7 +55,7 @@ class ArtilleryBattery {
         while (iterator.hasNext()) {
             Laser laser = iterator.next();
             laser.update();
-            if (laser.isExploded()) {
+            if (laser.exploded) {
                 iterator.remove();
             }
         }

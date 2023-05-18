@@ -9,53 +9,30 @@ class GameState {
     int numMissiles;
     int destroyedMissiles = 0;
     int previousScore;
+    int previousHighScore;
     PApplet p;
     ArrayList < Missile > missiles;
     ArtilleryBattery battery;
     ArrayList < City > cities;
+    int highScore;
 
 
     float spawnInterval; // Random interval between missile spawns
     float lastSpawnTime; // Time of the last missile spawn
 
-    GameState(PApplet p, int levelNumber, int numBatteries, int maxMissiles, int previousScore) {
+
+    GameState(PApplet p, Level nextLevel, int previousScore, int previousHighScore) {
         this.p = p;
         this.score = 0;
-        this.levelNumber = levelNumber;
-        this.numBatteries = numBatteries;
-        this.maxMissiles = maxMissiles;
+        this.levelNumber = nextLevel.levelNumber;
+        this.numBatteries = nextLevel.numBatteries;
+        this.maxMissiles = nextLevel.numMissiles;
         this.previousScore = previousScore;
+        this.previousHighScore = previousHighScore;
         this.paused = true;
         this.spawnInterval = random(1, 5); // Initialize the random interval
         this.lastSpawnTime = p.millis(); // Initialize the last spawn time
-    }
-
-
-    int getScore() {
-        return score;
-    }
-
-    int getLevelNumber() {
-        return levelNumber;
-    }
-
-    int getNumBatteries() {
-        return numBatteries;
-    }
-
-    int getMaxMissiles() {
-        return maxMissiles;
-    }
-    int getPreviousScore() {
-        return previousScore;
-    }
-
-    boolean isPaused() {
-        return paused;
-    }
-
-    int getDestroyedMissileCount() {
-        return destroyedMissiles;
+        this.highScore = nextLevel.highScore;
     }
 
 	void setPaused(boolean pause) {
@@ -189,7 +166,7 @@ class GameState {
         for (Laser laser: battery.lasers) {
             // Check if laser is travelling, or if it's hit it's target
             // Laser should not explode before hitting it's target
-            if (laser.hasReachedTarget() && !laser.exploded) {
+            if (laser.reachedTarget && !laser.exploded) {
 
                 // Create iterator as we need to run the remove function on hit missiles
                 Iterator < Missile > iterator = missiles.iterator();
@@ -236,8 +213,8 @@ class GameState {
         for (Missile missile : missiles) {
             if (missile.exploding) continue;
 
-			float centerOfCityX = city.getX() + city.cityWidth/2;
-			float centerOfCityY = city.getY();
+			float centerOfCityX = city.x + city.cityWidth/2;
+			float centerOfCityY = city.y;
 			float overlapThreshold = missile.explosionMaxRadius + 20;
 
 			PVector[] points = missile.getCoords();
