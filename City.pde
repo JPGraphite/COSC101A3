@@ -5,37 +5,34 @@ class City {
     float x, y;
     float cityWidth, cityHeight;
     boolean alive = true;
-    PImage imgCity;
-    PImage imgFlames;
 
     City(float x, float y, float cityWidth, float cityHeight) {
         this.x = x;
         this.y = y;
         this.cityWidth = cityWidth;
         this.cityHeight = cityHeight;
-        imgCity = loadImage("city.png");
-        imgFlames = loadImage("flames.png");
+
     }
 
 
-    public float getX() {
+    float getX() {
         return x;
     }
 
-    public float getY() {
+    float getY() {
         return y;
     }
 
-    public float getWidth() {
+    float getWidth() {
         return cityWidth;
     }
 
-    public float getHeight() {
+    float getHeight() {
         return cityHeight;
     }
 
 
-    public void setAlive(boolean value) {
+    void setAlive(boolean value) {
         alive = value;
     }
     void update() {
