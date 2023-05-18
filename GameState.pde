@@ -97,10 +97,10 @@ class GameState {
     }
 
     void update() {
-
+		spawnMissiles();
         // trigger battery update function
         battery.update();
-        spawnMissiles();
+
         // Check for collision every update call
         checkForLaserCollision();
 		checkForMissileCollisions();
@@ -195,7 +195,7 @@ class GameState {
         for (Laser laser: battery.lasers) {
             // Check if laser is travelling, or if it's hit it's target
             // Laser should not explode before hitting it's target
-            if (laser.hasReachedTarget()) {
+            if (laser.hasReachedTarget() && !laser.exploded) {
 
                 // Create iterator as we need to run the remove function on hit missiles
                 Iterator < Missile > iterator = missiles.iterator();
@@ -237,17 +237,19 @@ class GameState {
     void checkForMissileCollisions() {
     for (City city : cities) {
         if (!city.alive) continue;
+		//
+		missileLoop:
         for (Missile missile : missiles) {
             if (missile.exploding) continue;
 
-			float centerOfCityX = city.getX() + city.cityWidth /2;
-			float centerOfCityY = city.getY() - city.cityHeight /2;
-
+			float centerOfCityX = city.getX() + city.cityWidth/2;
+			float centerOfCityY = city.getY();
 			float overlapThreshold = missile.explosionMaxRadius + 20;
 
 			PVector[] points = missile.getCoords();
 			for (int i = 0; i < points.length; i++) {
 				PVector point = points[i];
+
 				// Perform operations on each point
 				float distance = dist(centerOfCityX, centerOfCityY, point.x, point.y);
 				 if (distance <= overlapThreshold) {
@@ -255,6 +257,7 @@ class GameState {
 					missile.explode(point.x, point.y);
 					missileHit.play();
 					city.setAlive(false);
+					continue missileLoop;
             	}
 			}
 

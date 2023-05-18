@@ -44,28 +44,6 @@ class Missile {
         return pos.y;
     }
 
-    PVector[] getCoords() {
-      float rotation = getAngle();
-
-      PVector topLeft = getPointRotated( pos.x, pos.y, rotation, -missileWidth/2, missileHeight/2);
-      PVector topRight = getPointRotated( pos.x + missileWidth, pos.y, rotation, -missileWidth/2, missileHeight/2);
-      PVector bottomRight = getPointRotated( pos.x + missileWidth, pos.y + missileHeight, rotation, -missileWidth/2, missileHeight/2);
-      PVector bottomLeft = getPointRotated( pos.x, pos.y + missileHeight, rotation, -missileWidth/2, missileHeight/2);
-      PVector[] points = {topLeft, topRight, bottomRight, bottomLeft};
-      return points;
-    }
-
-
-    PVector getPointRotated(float X,float Y,float R,float Xos,float Yos) {
-      //The rotated position of this corner in world coordinates
-      float rotatedX = X + (Xos  * cos(R)) - (Yos * sin(R));
-      float rotatedY = Y + (Xos  * sin(R)) + (Yos * cos(R));
-      PVector point = new PVector(rotatedX, rotatedY);
-      return point;
-    }
-
-
-
     void update() {
         if (exploding) return;
         // Update position of missile based on velocity
@@ -88,6 +66,30 @@ class Missile {
         // Calculate the angle between the vector and the x-axis
         float calcAngle = atan2(dy, dx);
         return calcAngle;
+
+    }
+
+    PVector[] getCoords() {
+        float rotation = velocity.heading() + PI / 2;
+        float halfMissileHeight = missileHeight/2;
+        float halfMissileWidth = missileWidth/2;
+        float initialX = pos.x;
+        float initialY = pos.y;
+
+        float cosOfRotation = cos(rotation);
+        float sinOfRotation = sin(rotation);
+        float xToMove = -halfMissileWidth * cosOfRotation - halfMissileHeight * sinOfRotation;
+        float yToMove = -halfMissileWidth * sinOfRotation + halfMissileHeight * cosOfRotation;
+        float xToMove2 =  halfMissileWidth * cosOfRotation - halfMissileHeight * sinOfRotation;
+        float yToMove2 =  halfMissileWidth * sinOfRotation + halfMissileHeight * cosOfRotation;
+
+        PVector topLeft = new PVector(initialX + xToMove, initialY + yToMove);
+        PVector topRight = new PVector(initialX + xToMove2, initialY + yToMove2);
+        PVector bottomLeft = new PVector(initialX - xToMove, initialY - yToMove);
+        PVector bottomRight = new PVector(initialX - xToMove2, initialY - yToMove2);
+        PVector[] points = {topLeft, topRight, bottomRight, bottomLeft};
+        // Returns four points in clockwise order starting from the top left.
+        return points;
     }
 
     void explode(float explodePointX, float explodePointY) {
@@ -98,6 +100,7 @@ class Missile {
 
 
     void display() {
+
         if (exploding) {
             stroke(255, 0, 0);
             fill(255, 0, 0);
@@ -113,7 +116,8 @@ class Missile {
             pushMatrix();
             translate(pos.x, pos.y);
             rotate(velocity.heading() + PI / 2);
-            imageMode(CENTER);
+
+            imageMode(CORNER);
             image(imgMissile, -missileWidth / 2, -missileHeight / 2); // Adjust image positioning based on size
             popMatrix();
         }
