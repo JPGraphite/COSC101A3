@@ -33,7 +33,7 @@ class Missile {
         explosionDuration = 60; // 60 frames (assuming 60 frames per second)
         explosionTimer = 0;
         explosionRadius = 0;
-        explosionMaxRadius = 20;
+        explosionMaxRadius = 30;
     }
 
     void update() {
@@ -106,13 +106,11 @@ class Missile {
     void display() {
 
         if (exploding) {
-            stroke(255, 0, 0);
-            fill(255, 0, 0);
-            strokeWeight(2);
             float currentRadius = explosionRadius;
+            imageMode(CENTER);
             if (explosionRadius < explosionMaxRadius) {
                 explosionRadius++;
-                ellipse(pos.x , pos.y , currentRadius * 2, currentRadius * 2);
+                image(imgMissileExplosion, pos.x , pos.y , currentRadius * 2, currentRadius * 2);
             } else {
                 explodeFinished = true;
             }

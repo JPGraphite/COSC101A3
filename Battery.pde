@@ -1,7 +1,8 @@
 import java.util.ArrayList;
 import java.util.Iterator;
 
-/* image found at https://www.pngwing.com/en/free-png-tovsr/download */
+/* battery image found at https://www.pngwing.com/en/free-png-tovsr/download */
+
 
 class ArtilleryBattery {
     float x; // X position of battery

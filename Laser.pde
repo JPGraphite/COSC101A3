@@ -1,3 +1,5 @@
+/* laser image found at https://www.pngitem.com/middle/iRxoxRb_transparent-laser-sprite-laser-beam-sprite-png-png/ */
+
 class Laser {
     float x; // X position of laser
     float y; // Y position of laser
@@ -28,10 +30,10 @@ class Laser {
         this.explosionDuration = 60; // 60 frames (assuming 60 frames per second)
         this.explosionTimer = 0;
         this.explosionRadius = 0;
-        this.explosionMaxRadius = 20;
+        this.explosionMaxRadius = 30;
         // Set speed and size of laser
         speed = 10;
-        size = 3;
+        size = 10;
     }
 
     void update() {
@@ -57,13 +59,19 @@ class Laser {
 
     void display() {
         if (!exploded && !reachedTarget) {
-            // Draw laser as a small line
-            stroke(255, 0, 0);
-            strokeWeight(size);
-            float lineLength = size * 4;
-            float lineX2 = x + cos(angle) * lineLength;
-            float lineY2 = y + sin(angle) * lineLength;
-            line(x, y, lineX2, lineY2);
+            // Calculate the angle between the laser position and the mouse position
+    float targetAngle = atan2(targetY - y, targetX - x);
+  
+    pushMatrix(); // Save the current transformation matrix
+    translate(x, y); // Translate to the laser position
+    rotate(targetAngle + PI / 2); // Rotate by the target angle
+  
+    // Draw laser as a rotated image
+    image(imgLaser, 0, 0, size, size * 2); // Draw the image at the center (0, 0)
+  
+    popMatrix(); // Restore the previous transformation matrix
+
+            //image(imgLaser, x, y, lineX2, lineY2);
             line(targetX - targetSize, targetY - targetSize, targetX + targetSize, targetY + targetSize);
             line(targetX + targetSize, targetY - targetSize, targetX - targetSize, targetY + targetSize);
         } else {
@@ -72,7 +80,7 @@ class Laser {
             float currentRadius = explosionRadius;
             if (explosionRadius < explosionMaxRadius) {
                 explosionRadius++;
-                ellipse(targetX, targetY, currentRadius * 2, currentRadius * 2);
+                image(imgLaserExplosion, targetX, targetY, currentRadius * 2, currentRadius * 2);
             }
         }
     }
