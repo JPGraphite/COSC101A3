@@ -23,7 +23,7 @@ int previousHighScore = 0;
 SoundFile success;
 PApplet p = this;
 Background background;
-PImage imgCity, imgFlames, imgBattery, imgMissile, imgBackground, imgLaser, imgLaserExplosion;
+PImage imgCity, imgFlames, imgBattery, imgMissile, imgBackground, imgLaser, imgLaserExplosion, imgMissileExplosion;
 SoundFile laserFire, missileHit;
 
 
@@ -37,6 +37,7 @@ void setup() {
     imgBackground = loadImage("background.jpg");
     imgLaser = loadImage("laser.png");
     imgLaserExplosion = loadImage("laserExplosion.png");
+    imgMissileExplosion = loadImage("missileExplosion.png");
     // Set up sounds files for lasers and missiles
     laserFire = new SoundFile(p, "./data/laserFire.wav");
     missileHit = new SoundFile(p, "./data/missileHit.wav");
