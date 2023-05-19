@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 /* battery image found at https://www.pngwing.com/en/free-png-tovsr/download */
-/* laser image found at https://www.pngitem.com/middle/iRxoxRb_transparent-laser-sprite-laser-beam-sprite-png-png/ */
+
 
 class ArtilleryBattery {
     float x; // X position of battery

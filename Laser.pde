@@ -1,3 +1,5 @@
+/* laser image found at https://www.pngitem.com/middle/iRxoxRb_transparent-laser-sprite-laser-beam-sprite-png-png/ */
+
 class Laser {
     float x; // X position of laser
     float y; // Y position of laser
@@ -28,7 +30,7 @@ class Laser {
         this.explosionDuration = 60; // 60 frames (assuming 60 frames per second)
         this.explosionTimer = 0;
         this.explosionRadius = 0;
-        this.explosionMaxRadius = 20;
+        this.explosionMaxRadius = 30;
         // Set speed and size of laser
         speed = 10;
         size = 10;
@@ -78,7 +80,7 @@ class Laser {
             float currentRadius = explosionRadius;
             if (explosionRadius < explosionMaxRadius) {
                 explosionRadius++;
-                ellipse(targetX, targetY, currentRadius * 2, currentRadius * 2);
+                image(imgLaserExplosion, targetX, targetY, currentRadius * 2, currentRadius * 2);
             }
         }
     }
