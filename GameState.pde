@@ -4,6 +4,7 @@ class GameState {
     int score = 0;
     int levelNumber;
     int numBatteries;
+    int totalBatteries;
     int maxMissiles;
     boolean paused;
     int numMissiles;
@@ -27,6 +28,7 @@ class GameState {
         this.score = 0;
         this.levelNumber = nextLevel.levelNumber;
         this.numBatteries = nextLevel.numBatteries;
+        this.totalBatteries = nextLevel.numBatteries;
         this.maxMissiles = nextLevel.numMissiles;
         this.previousScore = previousScore;
         this.previousHighScore = previousHighScore;
@@ -156,21 +158,41 @@ class GameState {
     }
 
 	void drawAmmo() {
-		int ammoWidth = 20; // Width of each ammo block
-		int ammoHeight = 10; // Height of each ammo block
+		int ammoWidth = 30; // Width of each ammo block
+		int ammoHeight = 15; // Height of each ammo block
 		int spacing = 10; // Spacing between ammo blocks
 
 
-		int startY = 10; // Y position of the first ammo block
+		int startY = 55; // Y position of the first ammo block
+        textSize(30);
+        fill(0);
+        stroke(0);
+        strokeWeight(2);
+        text("AMMO", width -40, startY -38);
+        rectMode(CORNER);
+        fill(100); // Set the fill color to grey
+        rect(width - ammoWidth - 15, startY  - ammoHeight, ammoWidth + 10, (ammoHeight + spacing) * totalBatteries + spacing); // Draw the grey rectangle
 
-		for (int i = 0; i < numBatteries; i++) {
+        for (int i = 0; i < totalBatteries; i++) {
 			int x = width - ammoWidth - 10; // X position of the ammo blocks
 			int y = startY + (ammoHeight + spacing) * i; // Y position of each ammo block
 			stroke(0);
-			strokeWeight(0);
-			fill(150); // Set the fill color
+			strokeWeight(1);
+			fill(0, 0, 0); // Set the fill color
 			rect(x, y, ammoWidth, ammoHeight); // Draw the ammo block
 		}
+
+        for (int i = 0; i < numBatteries; i++) {
+			int x = width - ammoWidth - 10; // X position of the ammo blocks
+			int y = startY + (ammoHeight + spacing) * i; // Y position of each ammo block
+			stroke(0);
+			strokeWeight(1);
+			fill(0, 150, 0); // Set the fill color
+			rect(x, y, ammoWidth, ammoHeight); // Draw the ammo block
+		}
+
+
+
 	}
 
 	/*
