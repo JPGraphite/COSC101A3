@@ -158,9 +158,9 @@ class GameState {
     }
 
 	void drawAmmo() {
-		int ammoWidth = 30; // Width of each ammo block
-		int ammoHeight = 15; // Height of each ammo block
-		int spacing = 10; // Spacing between ammo blocks
+		int ammoWidth = 20; // Width of each ammo block
+		int ammoHeight = 10; // Height of each ammo block
+		int spacing = 5; // Spacing between ammo blocks
 
 
 		int startY = 55; // Y position of the first ammo block
@@ -168,6 +168,7 @@ class GameState {
         fill(0);
         stroke(0);
         strokeWeight(2);
+        fill(255, 0, 0);
         text("AMMO", width -40, startY -38);
         rectMode(CORNER);
         fill(100); // Set the fill color to grey
