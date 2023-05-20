@@ -165,10 +165,9 @@ class GameState {
 
 		int startY = 55; // Y position of the first ammo block
         textSize(30);
-        fill(0);
-        stroke(0);
-        strokeWeight(2);
         fill(255, 0, 0);
+        stroke(0);
+        strokeWeight(2);        
         text("AMMO", width -40, startY -38);
         rectMode(CORNER);
         fill(100); // Set the fill color to grey
