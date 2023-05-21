@@ -324,7 +324,6 @@ class GameState {
                             missileHit.play();
                             // Increment destroyedMissiles for level complete condition
                             playerKilledMissile++;
-                            destroyedMissiles++;
                             break;
                         }
                     }
