@@ -1,7 +1,21 @@
-/**
- * The Background class represents the background of the application.
- * It displays a background image and falling ashes.
- */
+
+
+/*
+    Class: Background
+
+    Represents the background of the application.
+
+    Properties:
+      - ashCount: The total count of ash to spawn (int)
+      - ashes: Array of spawned Ash (Ash[])
+
+    Methods:
+      - Background(): Constructor for the Background class
+      - setup(): Sets up the background by initializing the ashes
+      - draw(): Draws the background by displaying the background image and updating the ashes' positions
+*/
+
+
 class Background {
   int ashCount = 200;
   Ash[] ashes = new Ash[ashCount];
@@ -46,21 +60,31 @@ class Background {
   }
 }
 
-/**
- * The Ash class represents a falling ash particle.
- */
+
+
+
+/*
+    Class: Ash
+
+    The Ash class represents a falling ash particle.
+
+    Properties:
+      - x: X position of Ash (float)
+      - y: Y position of Ash (float)
+      - yMove: The vertical movement speed of the ash (float)
+
+    Methods:
+      - Ash(): Constructs an Ash object with the specified coordinates and vertical movement.
+      - setup(): Sets up the background by initializing the ashes
+      - draw(): Draws the background by displaying the background image and updating the ashes' positions
+*/
+
 class Ash {
   float x;
   float y;
   float yMove;
 
-  /**
-   * Constructs an Ash object with the specified coordinates and vertical movement.
-   * 
-   * @param x      The x-coordinate of the ash.
-   * @param y      The y-coordinate of the ash.
-   * @param yMove  The vertical movement speed of the ash.
-   */
+
   Ash(float x, float y, float yMove) {
     this.x = x;
     this.y = y;
@@ -69,7 +93,7 @@ class Ash {
 
   /**
    * Resets the x-coordinate of the ash to the specified maximum x-coordinate.
-   * 
+   *
    * @param maxX  The maximum x-coordinate to reset the ash's x-coordinate to.
    */
   void resetX(float maxX) {

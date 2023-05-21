@@ -25,6 +25,13 @@ PImage imgCity, imgFlames, imgBattery, imgMissile, imgBackground, imgLaser, imgL
 SoundFile laserFire, missileHit;
 String highScoreFilePath = "highscore.txt";
 
+
+
+/*
+  setup();
+  Sets up the initial configuration of the sketch.
+  Loads images, sound files, initializes game objects, and starts the audio thread.
+*/
 void setup() {
   size(1000, 500);
   background(0);
@@ -72,10 +79,8 @@ void setup() {
 }
 
 /*
-    createLevels() fetches an array of level information from the levels.txt file
-    and populates the levels arrayList with a Level class for each line
-    level structure in the levels file is as below;
-        levelNumber,numCities,numLasers,numMissiles
+    createLevels() fetches an array of level information from the levels.json file
+    and populates the levels arrayList with a Level class for each object
 */
 void createLevels() {
     try {
@@ -102,6 +107,12 @@ void createLevels() {
     }
 
 }
+
+
+/*
+  updateHighScore();
+  Updates the high score in the levels.json file with updated level data.
+*/
 void updateHighScore() {
   // Write the updated levels to levels.json file
     JSONArray updatedJsonArray = new JSONArray();
@@ -122,6 +133,11 @@ void updateHighScore() {
     writer.close();
 }
 
+/*
+  nextLevel();
+  Advances the game to the next level if available, or displays the completion menu if all levels are completed.
+  Plays a mission success sound effect and updates the game state accordingly.
+*/
 void nextLevel() {
   // Plays mission success sound effect
   success.play();
@@ -157,6 +173,12 @@ void nextLevel() {
   }
 }
 
+
+/*
+  nextLevel();
+  Draws the game or the menu screen depending on the game state.
+  Handles the logic for transitioning between screens and resetting the game.
+*/
 void draw() {
   if (game.destroyedMissiles >= game.maxMissiles && !game.paused) {
     int currentScore = game.getScore();
@@ -187,6 +209,10 @@ void draw() {
   }
 }
 
+/*
+  resetGame();
+  Resets the game after completion by reinitialising the game with the first level
+*/
 void resetGame() {
   level = levels.get(0);
   // Store the score for the current game, for displaying on the success screen
@@ -202,6 +228,10 @@ void resetGame() {
   game.setup();
 }
 
+/*
+  mousePressed();
+  Handles mouse click events differently depending on game pause state
+*/
 void mousePressed() {
   if (!game.paused) {
     game.mouseClicked();
@@ -210,9 +240,12 @@ void mousePressed() {
   }
 }
 
+/*
+  keyPressed();
+  Allows game to be paused if not currently paused, else key press does nothing
+*/
 void keyPressed() {
   // Prevent paused screen functionality between levels
   if (game.paused && menu.currentScreen != ScreenType.PAUSED) return;
-
   game.keyPressed();
 }
