@@ -244,7 +244,7 @@ class GameState {
             if (missile.pos.y + missile.missileHeight > height && !missile.exploding) {
                 missile.explode(missile.pos.x, height - missile.missileHeight / 2);
                 missileHit.play();
-                iterator.remove(); // Remove the current missile using the iterator
+                missile.explode(missile.pos.x, height - missile.missileHeight / 2);
             } else {
                 missile.update(); // Update the position of the missile
                 missile.display(); // Display the missile
