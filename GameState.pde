@@ -45,13 +45,9 @@ class GameState {
     void setup() {
         // Initialise battery at the center of the screen
         battery = new ArtilleryBattery(width / 2, height - 30, numBatteries);
-
         // Initialize missiles array list
         missiles = new ArrayList < Missile > ();
-
-
         numMissiles = 0;
-
         cities = new ArrayList < City > ();
         spawnCities();
     }
@@ -70,6 +66,11 @@ class GameState {
         }
     }
 
+
+    /*
+        update();
+        This function serves as a central point for updating various game elements and managing collisions for missiles, cities and lasers.
+    */
     void update() {
         spawnMissiles();
         // trigger battery update function
@@ -80,6 +81,10 @@ class GameState {
         checkForMissileCollisions();
     }
 
+    /*
+        draw();
+        This function controls the displaying of most gameState elements on the screen
+    */
     void draw() {
         // Trigger battery display function
         battery.display();
@@ -88,6 +93,14 @@ class GameState {
         drawAmmo();
     }
 
+
+    /*
+        getScore();
+        This function calculates the score for the current game based off below factors and returns the total score;
+        Remaining Ammo
+        Missiles destroyed
+        Cities left allive
+    */
     int getScore() {
         int scoreValForAmmo = 20;
         int scoreValForMissilesDestroyed = 50;
@@ -103,6 +116,12 @@ class GameState {
         return score;
     }
 
+
+    /*
+        spawnMissiles();
+        This function handles the spawning of missiles in a game by checking the time interval and the maximum number of missiles.
+        It creates a new missile object, updates the relevant variables, and controls the frequency of missile spawns.
+    */
     void spawnMissiles() {
         // Check if it's time to spawn a missile
         float currentTime = p.millis();
@@ -115,6 +134,15 @@ class GameState {
         }
     }
 
+
+
+    /*
+        spawnCities();
+        This function generates cities in an arraylist.
+        The cities are positioned in two rows, with three cities on each side of the Artillery Batter.
+        The function calculates the x-coordinate for each city and assigns a fixed y-coordinate near the bottom of the screen.
+        It handles the creation of cities and their initial positioning.
+    */
     void spawnCities() {
         float cityWidth = 80;
         float cityHeight = 60;
@@ -129,6 +157,12 @@ class GameState {
         }
     }
 
+
+    /*
+        drawCities();
+        This function iterates over the cities arrayList.
+        It calls their update function before drawing them on the screen.
+    */
     void drawCities() {
         // Update and draw existing missiles
         for (int i = cities.size() - 1; i >= 0; i--) {
@@ -138,6 +172,11 @@ class GameState {
         }
     }
 
+
+    /*
+        drawMissiles() iterates over a list of missiles, updates their positions, and displays them on the screen.
+        It utilizes an iterator to safely remove missiles that have finished exploding or have moved off the screen.
+    */
     void drawMissiles() {
         // Create an iterator for the missiles list
         Iterator < Missile > iterator = missiles.iterator();
@@ -203,9 +242,10 @@ class GameState {
     }
 
     /*
-    	checkForLaserCollision() iterates over the lasers arraylist from the ArtilleryBattery class
-    	checking if they collide with any missiles from the missiles ArrayList
-    	If they collide, the missile is removed from the array list, triggering a sound effect.
+    	checkForLaserCollision();
+        This function checks for collisions between lasers from the lasers ArrayList (from the ArtilleryBattery class) and missiles from the missiles ArrayList.
+        It iterates over the lasers and checks if they collide with any missiles.
+        If a collision occurs, the missile is removed from the missiles ArrayList, a sound effect is triggered, and score related variables are updated.
     */
     void checkForLaserCollision() {
         for (Laser laser: battery.lasers) {
@@ -243,7 +283,15 @@ class GameState {
         }
     }
 
-
+    /*
+    	checkForLaserCollision();
+        This function iterates over the cities ArrayList to check for collisions between missiles and currently alive cities.
+        It ensures that the city is alive and the missile has not already collided with an element before checking for another collision.
+        The function handles the necessary actions when a collision is detected, such as;
+        exploding the missile,
+        playing a sound effect,
+        and marking the city as not alive.
+    */
     void checkForMissileCollisions() {
         for (City city: cities) {
             if (!city.alive) continue;
