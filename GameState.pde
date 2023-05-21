@@ -1,22 +1,22 @@
 import java.util.ArrayList;
 
 class GameState {
-    int score = 0;
-    int levelNumber;
-    int numBatteries;
-    int totalBatteries;
-    int maxMissiles;
-    boolean paused;
-    int numMissiles;
-    int destroyedMissiles = 0;
-    int playerKilledMissile = 0;
-    int previousScore;
-    int previousHighScore;
-    PApplet p;
-    ArrayList < Missile > missiles;
-    ArtilleryBattery battery;
-    ArrayList < City > cities;
-    int highScore;
+    int score = 0; // Used to store current game score
+    int levelNumber; // Current level number for fetching level data
+    int numBatteries;  // Number of shots left to fire
+    int totalBatteries; // Total number of shots possible
+    int maxMissiles; // Total number of incoming missiles
+    boolean paused; // Stores pause state of the game
+    int numMissiles; // Current number of missiles
+    int destroyedMissiles = 0; // Number of destroyed missile from either lasers, or hitting the ground/cities
+    int playerKilledMissile = 0; // Number of missile killed by the player
+    int previousScore; // Score from the previous level used for Menu
+    int previousHighScore; // Highest score from previous level for Menu
+    PApplet p; // Store processing applet
+    ArrayList < Missile > missiles; // List of currently spawned missiles
+    ArtilleryBattery battery; // Class for player controlled battery
+    ArrayList < City > cities; // All city classes
+    int highScore; // High score for this level
 
 
     float spawnInterval; // Random interval between missile spawns
@@ -163,6 +163,10 @@ class GameState {
         }
     }
 
+    /*
+    	drawAmmo() visually represents the ammunition inventory by drawing empty and filled ammo blocks on the screen,
+        providing a visual indicator of the available ammunition for the artillery battery.
+    */
 	void drawAmmo() {
 		int ammoWidth = 20; // Width of each ammo block
 		int ammoHeight = 10; // Height of each ammo block
@@ -196,9 +200,6 @@ class GameState {
 			fill(0, 150, 0); // Set the fill color
 			rect(x, y, ammoWidth, ammoHeight); // Draw the ammo block
 		}
-
-
-
 	}
 
 	/*
@@ -234,8 +235,6 @@ class GameState {
 							// Increment destroyedMissiles for level complete condition
                             playerKilledMissile++;
 							destroyedMissiles++;
-							// Add score ( To be updated )
-							score += 50;
 							break;
 						}
 					}
@@ -246,35 +245,35 @@ class GameState {
 
 
     void checkForMissileCollisions() {
-    for (City city : cities) {
-        if (!city.alive) continue;
-		//
-		missileLoop:
-        for (Missile missile : missiles) {
-            if (missile.exploding) continue;
+        for (City city : cities) {
+            if (!city.alive) continue;
+            //
+            missileLoop:
+            for (Missile missile : missiles) {
+                if (missile.exploding) continue;
 
-			float centerOfCityX = city.x + city.cityWidth/2;
-			float centerOfCityY = city.y;
-			float overlapThreshold = missile.explosionMaxRadius + 20;
+                float centerOfCityX = city.x + city.cityWidth/2;
+                float centerOfCityY = city.y;
+                float overlapThreshold = missile.explosionMaxRadius + 20;
 
-			PVector[] points = missile.getCoords();
-			for (int i = 0; i < points.length; i++) {
-				PVector point = points[i];
+                PVector[] points = missile.getCoords();
+                for (int i = 0; i < points.length; i++) {
+                    PVector point = points[i];
 
-				// Perform operations on each point
-				float distance = dist(centerOfCityX, centerOfCityY, point.x, point.y);
-				 if (distance <= overlapThreshold) {
-					// Collision occurred
-					missile.explode(point.x, point.y);
-					missileHit.play();
-					city.setAlive(false);
-					continue missileLoop;
-            	}
-			}
+                    // Perform operations on each point
+                    float distance = dist(centerOfCityX, centerOfCityY, point.x, point.y);
+                    if (distance <= overlapThreshold) {
+                        // Collision occurred
+                        missile.explode(point.x, point.y);
+                        missileHit.play();
+                        city.setAlive(false);
+                        continue missileLoop;
+                    }
+                }
 
+            }
         }
     }
-}
 
 
 }

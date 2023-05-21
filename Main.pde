@@ -9,6 +9,8 @@ From Processing go to
 
 import processing.sound.*;
 import processing.core.PApplet;
+import processing.data.JSONArray;
+import processing.data.JSONObject;
 
 Level level;
 GameState game;
@@ -39,19 +41,18 @@ void setup() {
   missileHit = new SoundFile(p, "./data/missileHit.wav");
   // Remove cursor as it's replaced in GameState
   noCursor();
-  
-  // Generate levels
-  generateLevels();
 
+  // Initialise levels arraylist
+  createLevels();
   level = levels.get(0);
   background = new Background();
   // Initialise game with first level
-  game = new GameState(
-    this,
-    level,
-    previousScore,
-    loadHighScore()
-  );
+   game = new GameState(
+        this,
+        level,
+        previousScore,
+        level.highScore
+    );
 
   // Start game in paused state to show the menu
   game.setPaused(true);
@@ -70,46 +71,55 @@ void setup() {
   audioThread.start();
 }
 
-void generateLevels() {
-  int numLevels = 5; // Number of levels to generate
-  int initialBatteries = 5; // Number of lasers for first stage
-  int initialMissiles = 1; // Number of missiles for first stage
-  int batteryIncrement = 2; // Add two additional lasers each stage
-  int missileIncrement = 3; // Add three additional missiles each stage
+/*
+    createLevels() fetches an array of level information from the levels.txt file
+    and populates the levels arrayList with a Level class for each line
+    level structure in the levels file is as below;
+        levelNumber,numCities,numBatteries,numMissiles
+*/
+void createLevels() {
+    try {
+        // Read the levels.json file
+    BufferedReader reader = createReader("levels.json");
+    JSONArray jsonArray = new JSONArray(reader);
 
-  for (int i = 0; i < numLevels; i++) {
-    int levelNumber = i + 1;
-    int numBatteries = initialBatteries + i * batteryIncrement;
-    int numMissiles = initialMissiles + i * missileIncrement;
+    for (int i = 0; i < jsonArray.size(); i++) {
+        JSONObject jsonObject = jsonArray.getJSONObject(i);
 
-    int highScore = loadHighScore(); // Load the high score
+        int levelNumber = jsonObject.getInt("levelNumber");
+        int numBatteries = jsonObject.getInt("numBatteries");
+        int numMissiles = jsonObject.getInt("numMissiles");
+        int highScore = jsonObject.getInt("highScore");
 
-    Level level = new Level(levelNumber, numBatteries, numMissiles, highScore);
-    levels.add(level);
-  }
+        // Initialise a new level class with fetched values
+        Level level = new Level(levelNumber, numBatteries, numMissiles, highScore);
+        levels.add(level);
+    }
+
+    reader.close();
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+
 }
-
-
-
-void saveHighScore(int score) {
-  String[] data = { str(score) };
-  saveStrings(highScoreFilePath, data);
-}
-
-int loadHighScore() {
-  String[] data = loadStrings(highScoreFilePath);
-  if (data != null && data.length > 0) {
-    return Integer.parseInt(data[0]);
-  } else {
-    return 0;
-  }
-}
-
 void updateHighScore() {
-  if (game.score > game.highScore) {
-    game.highScore = game.score;
-    saveHighScore(game.highScore);
-  }
+  // Write the updated levels to levels.json file
+    JSONArray updatedJsonArray = new JSONArray();
+
+    for (Level level : levels) {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.setInt("levelNumber", level.levelNumber);
+        jsonObject.setInt("numBatteries", level.numBatteries);
+        jsonObject.setInt("numMissiles", level.numMissiles);
+        jsonObject.setInt("highScore", level.highScore);
+
+        updatedJsonArray.append(jsonObject);
+    }
+
+    PrintWriter writer = createWriter("levels.json");
+    writer.print(updatedJsonArray);
+    writer.flush();
+    writer.close();
 }
 
 void nextLevel() {
@@ -149,6 +159,12 @@ void nextLevel() {
 
 void draw() {
   if (game.destroyedMissiles >= game.maxMissiles && !game.paused) {
+    int currentScore = game.getScore();
+    int highScore = game.highScore;
+    if (currentScore > highScore) {
+        level.highScore = currentScore;
+        updateHighScore();
+    }
     nextLevel();
   }
 
