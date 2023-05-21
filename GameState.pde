@@ -3,8 +3,8 @@ import java.util.ArrayList;
 class GameState {
     int score = 0; // Used to store current game score
     int levelNumber; // Current level number for fetching level data
-    int numBatteries; // Number of shots left to fire
-    int totalBatteries; // Total number of shots possible
+    int numLasers; // Number of shots left to fire
+    int totalLasers; // Total number of shots possible
     int maxMissiles; // Total number of incoming missiles
     boolean paused; // Stores pause state of the game
     int numMissiles; // Current number of missiles
@@ -27,8 +27,8 @@ class GameState {
         this.p = p;
         this.score = 0;
         this.levelNumber = nextLevel.levelNumber;
-        this.numBatteries = nextLevel.numBatteries;
-        this.totalBatteries = nextLevel.numBatteries;
+        this.numLasers = nextLevel.numLasers;
+        this.totalLasers = nextLevel.numLasers;
         this.maxMissiles = nextLevel.numMissiles;
         this.previousScore = previousScore;
         this.previousHighScore = previousHighScore;
@@ -44,7 +44,7 @@ class GameState {
 
     void setup() {
         // Initialise battery at the center of the screen
-        battery = new ArtilleryBattery(width / 2, height - 30, numBatteries);
+        battery = new ArtilleryBattery(width / 2, height - 30, numLasers);
         // Initialize missiles array list
         missiles = new ArrayList < Missile > ();
         numMissiles = 0;
@@ -54,9 +54,9 @@ class GameState {
 
     void mouseClicked() {
         // Calculate angle between ArtilleryBattery position and mouse position
-        if (numBatteries < 0) return;
+        if (numLasers < 0) return;
         battery.fire();
-        numBatteries--;
+        numLasers--;
         laserFire.play();
     }
 
@@ -111,7 +111,7 @@ class GameState {
             score += scoreValForCitiesAlive;
         }
 
-        score += numBatteries * scoreValForAmmo;
+        score += numLasers * scoreValForAmmo;
         score += playerKilledMissile * scoreValForMissilesDestroyed;
         return score;
     }
@@ -220,9 +220,9 @@ class GameState {
         text("AMMO", width - 40, startY - 38);
         rectMode(CORNER);
         fill(100); // Set the fill color to grey
-        rect(width - ammoWidth - 15, startY - ammoHeight, ammoWidth + 10, (ammoHeight + spacing) * totalBatteries + spacing + ammoHeight); // Draw the grey rectangle
+        rect(width - ammoWidth - 15, startY - ammoHeight, ammoWidth + 10, (ammoHeight + spacing) * totalLasers + spacing + ammoHeight); // Draw the grey rectangle
 
-        for (int i = 0; i < totalBatteries; i++) {
+        for (int i = 0; i < totalLasers; i++) {
             int x = width - ammoWidth - 10; // X position of the ammo blocks
             int y = startY + (ammoHeight + spacing) * i; // Y position of each ammo block
             stroke(0);
@@ -231,7 +231,7 @@ class GameState {
             rect(x, y, ammoWidth, ammoHeight); // Draw the ammo block
         }
 
-        for (int i = 0; i < numBatteries; i++) {
+        for (int i = 0; i < numLasers; i++) {
             int x = width - ammoWidth - 10; // X position of the ammo blocks
             int y = startY + (ammoHeight + spacing) * i; // Y position of each ammo block
             stroke(0);

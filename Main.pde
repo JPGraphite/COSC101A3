@@ -75,7 +75,7 @@ void setup() {
     createLevels() fetches an array of level information from the levels.txt file
     and populates the levels arrayList with a Level class for each line
     level structure in the levels file is as below;
-        levelNumber,numCities,numBatteries,numMissiles
+        levelNumber,numCities,numLasers,numMissiles
 */
 void createLevels() {
     try {
@@ -87,12 +87,12 @@ void createLevels() {
         JSONObject jsonObject = jsonArray.getJSONObject(i);
 
         int levelNumber = jsonObject.getInt("levelNumber");
-        int numBatteries = jsonObject.getInt("numBatteries");
+        int numLasers = jsonObject.getInt("numLasers");
         int numMissiles = jsonObject.getInt("numMissiles");
         int highScore = jsonObject.getInt("highScore");
 
         // Initialise a new level class with fetched values
-        Level level = new Level(levelNumber, numBatteries, numMissiles, highScore);
+        Level level = new Level(levelNumber, numLasers, numMissiles, highScore);
         levels.add(level);
     }
 
@@ -109,7 +109,7 @@ void updateHighScore() {
     for (Level level : levels) {
         JSONObject jsonObject = new JSONObject();
         jsonObject.setInt("levelNumber", level.levelNumber);
-        jsonObject.setInt("numBatteries", level.numBatteries);
+        jsonObject.setInt("numLasers", level.numLasers);
         jsonObject.setInt("numMissiles", level.numMissiles);
         jsonObject.setInt("highScore", level.highScore);
 
