@@ -180,7 +180,7 @@ void nextLevel() {
   Handles the logic for transitioning between screens and resetting the game.
 */
 void draw() {
-  if (game.destroyedMissiles >= game.maxMissiles && !game.paused) {
+  if (game.destroyedMissiles >= game.maxMissiles && !game.paused && game.missiles.size() < 1) {
     int currentScore = game.getScore();
     int highScore = game.highScore;
     if (currentScore > highScore) {

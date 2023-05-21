@@ -315,11 +315,9 @@ class GameState {
                         // Perform operations on each point
                         float distance = dist(laser.x, laser.y, point.x, point.y);
                         if (distance < laser.explosionMaxRadius) {
-                            // If missile hit, remove it from the array list
-                            iterator.remove();
-
                             // Ensure duplicate sounds not playing
                             missileHit.stop();
+                            missile.explode(missile.pos.x, missile.pos.y);
                             // Play explosion sound
                             missileHit.play();
                             // Increment destroyedMissiles for level complete condition
