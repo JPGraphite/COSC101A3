@@ -243,8 +243,6 @@ class GameState {
             // Remove missiles that are off the screen
             if (missile.pos.y + missile.missileHeight > height && !missile.exploding) {
                 missile.explode(missile.pos.x, height - missile.missileHeight / 2);
-                missileHit.play();
-                missile.explode(missile.pos.x, height - missile.missileHeight / 2);
             } else {
                 missile.update(); // Update the position of the missile
                 missile.display(); // Display the missile
@@ -295,18 +293,15 @@ class GameState {
     	checkForLaserCollision();
         This function checks for collisions between lasers from the lasers ArrayList (from the ArtilleryBattery class) and missiles from the missiles ArrayList.
         It iterates over the lasers and checks if they collide with any missiles.
-        If a collision occurs, the missile is removed from the missiles ArrayList, a sound effect is triggered, and score related variables are updated.
+        If a collision occurs, the missile explodes, a sound effect is triggered, and score related variables are updated.
     */
     void checkForLaserCollision() {
         for (Laser laser: battery.lasers) {
             // Check if laser is travelling, or if it's hit it's target
             // Laser should not explode before hitting it's target
             if (laser.reachedTarget && !laser.exploded) {
-
-                // Create iterator as we need to run the remove function on hit missiles
-                Iterator < Missile > iterator = missiles.iterator();
-                while (iterator.hasNext()) {
-                    Missile missile = iterator.next();
+                for (Missile missile: missiles) {
+                    if (missile.exploding) continue;
                     // Calculate explosion radius
                     PVector[] points = missile.getCoords();
 
@@ -315,15 +310,13 @@ class GameState {
                         // Perform operations on each point
                         float distance = dist(laser.x, laser.y, point.x, point.y);
                         if (distance < laser.explosionMaxRadius) {
-                            // Ensure duplicate sounds not playing
-                            missileHit.stop();
                             missile.explode(missile.pos.x, missile.pos.y);
                             // Play explosion sound
-                            missileHit.play();
                             playerKilledMissile++;
                             break;
                         }
                     }
+
                 }
             }
         }
@@ -359,7 +352,6 @@ class GameState {
                         if (distance <= overlapThreshold) {
                             // Collision occurred
                             missile.explode(point.x, point.y);
-                            missileHit.play();
                             city.alive = false;
                             continue missileLoop;
                         }

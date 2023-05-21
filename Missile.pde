@@ -140,6 +140,7 @@ class Missile {
     */
     void explode(float explodePointX, float explodePointY) {
         exploding = true;
+        missileHit.play();
         pos.x = explodePointX;
         pos.y = explodePointY;
     }
