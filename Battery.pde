@@ -1,9 +1,6 @@
 import java.util.ArrayList;
 import java.util.Iterator;
 
-/* battery image found at https://www.pngwing.com/en/free-png-tovsr/download */
-
-
 /*
 
     Class: ArtilleryBattery

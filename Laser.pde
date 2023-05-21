@@ -1,5 +1,3 @@
-/* laser image found at https://www.pngitem.com/middle/iRxoxRb_transparent-laser-sprite-laser-beam-sprite-png-png/ */
-
 /*
     Class: Laser
 
