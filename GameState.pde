@@ -95,7 +95,7 @@ class GameState {
     */
     void setup() {
         // Initialise battery at the center of the screen
-        battery = new ArtilleryBattery(width / 2, height - 30, numLasers);
+        battery = new ArtilleryBattery(width / 2, height - 50, numLasers);
         // Initialize missiles array list
         missiles = new ArrayList < Missile > ();
         numMissiles = 0;
@@ -244,7 +244,6 @@ class GameState {
             if (missile.pos.y + missile.missileHeight > height && !missile.exploding) {
                 missile.explode(missile.pos.x, height - missile.missileHeight / 2);
                 missileHit.play();
-                iterator.remove(); // Remove the current missile using the iterator
             } else {
                 missile.update(); // Update the position of the missile
                 missile.display(); // Display the missile
@@ -257,8 +256,8 @@ class GameState {
         providing a visual indicator of the available ammunition for the artillery battery.
     */
     void drawAmmo() {
-        int ammoWidth = 20; // Width of each ammo block
-        int ammoHeight = 10; // Height of each ammo block
+        int ammoWidth = 40; // Width of each ammo block
+        int ammoHeight = 15; // Height of each ammo block
         int spacing = 5; // Spacing between ammo blocks
 
 
@@ -287,7 +286,10 @@ class GameState {
             stroke(0);
             strokeWeight(1);
             fill(0, 150, 0); // Set the fill color
-            rect(x, y, ammoWidth, ammoHeight); // Draw the ammo block
+            imageMode(CORNER);
+
+            image(imgAmmo, x, y, ammoWidth + 10, ammoHeight);
+            // rect(x, y, ammoWidth, ammoHeight); // Draw the ammo block
         }
     }
 
@@ -315,9 +317,7 @@ class GameState {
                         // Perform operations on each point
                         float distance = dist(laser.x, laser.y, point.x, point.y);
                         if (distance < laser.explosionMaxRadius) {
-                            // If missile hit, remove it from the array list
-                            iterator.remove();
-
+                            missile.explode(missile.pos.x, missile.pos.y);
                             // Ensure duplicate sounds not playing
                             missileHit.stop();
                             // Play explosion sound

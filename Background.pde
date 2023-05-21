@@ -44,6 +44,22 @@ class Background {
   void draw() {
     imageMode(CORNER);
     image(imgBackground, 0, 0, width, height);
+    fill( 100, 100, 100);
+    // Draw a triangle in the bottom left corner
+    triangle(0, height, 0, height - 70, 70, height);
+
+    // Draw a triangle in the bottom right corner
+    triangle(width, height, width, height - 70, width - 70, height);
+    // Draw a rhombus in the center
+    float rhombusSize = 150;  // Size of the rhombus
+    float rhombusX = width/2; // X-coordinate of the rhombus center
+    float rhombusY = height - 20; // Y-coordinate of the rhombus center
+
+    quad(rhombusX - rhombusSize/2, rhombusY,
+        rhombusX, rhombusY - rhombusSize/2,
+        rhombusX + rhombusSize/2, rhombusY,
+        rhombusX, rhombusY + rhombusSize/2);
+      rect(0, height - 20, width, 20);
 
     // Falling ash
     for (int i = 0; i < ashCount; i++) {

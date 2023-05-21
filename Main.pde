@@ -21,7 +21,7 @@ int previousHighScore = 0;
 SoundFile success;
 PApplet p = this;
 Background background;
-PImage imgCity, imgFlames, imgBattery, imgMissile, imgBackground, imgLaser, imgLaserExplosion, imgMissileExplosion;
+PImage imgCity, imgFlames, imgBattery, imgMissile, imgBackground, imgLaser, imgLaserExplosion, imgMissileExplosion, imgAmmo;
 SoundFile laserFire, missileHit;
 String highScoreFilePath = "highscore.txt";
 
@@ -39,7 +39,8 @@ void setup() {
   imgFlames = loadImage("flames.png");
   imgBattery = loadImage("battery.png");
   imgMissile = loadImage("missile.png");
-  imgBackground = loadImage("background.jpg");
+  imgAmmo = loadImage("Bullet_3.png");
+  imgBackground = loadImage("war_background.png");
   imgLaser = loadImage("laser.png");
   imgLaserExplosion = loadImage("laserExplosion.png");
   imgMissileExplosion = loadImage("missileExplosion.png");
@@ -180,7 +181,7 @@ void nextLevel() {
   Handles the logic for transitioning between screens and resetting the game.
 */
 void draw() {
-  if (game.destroyedMissiles >= game.maxMissiles && !game.paused) {
+  if (game.destroyedMissiles >= game.maxMissiles && !game.paused && game.missiles.size() < 1) {
     int currentScore = game.getScore();
     int highScore = game.highScore;
     if (currentScore > highScore) {
