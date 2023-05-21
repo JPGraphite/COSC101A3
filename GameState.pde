@@ -177,6 +177,8 @@ class GameState {
         // Check if it's time to spawn a missile
         float currentTime = p.millis();
         if (currentTime - lastSpawnTime >= spawnInterval * 1000 && numMissiles < maxMissiles) {
+            println("Num Missiles: " + numMissiles);
+            println("Max Missile: " + maxMissiles);
             missiles.add(new Missile());
             numMissiles++;
             // Update the last spawn time and generate a new random interval
@@ -320,9 +322,7 @@ class GameState {
                             missile.explode(missile.pos.x, missile.pos.y);
                             // Play explosion sound
                             missileHit.play();
-                            // Increment destroyedMissiles for level complete condition
                             playerKilledMissile++;
-                            destroyedMissiles++;
                             break;
                         }
                     }
