@@ -320,9 +320,7 @@ class GameState {
                             missile.explode(missile.pos.x, missile.pos.y);
                             // Play explosion sound
                             missileHit.play();
-                            // Increment destroyedMissiles for level complete condition
                             playerKilledMissile++;
-                            destroyedMissiles++;
                             break;
                         }
                     }
