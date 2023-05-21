@@ -139,17 +139,23 @@ class GameState {
     }
 
     void drawMissiles() {
-        // Update and draw existing missiles
-        for (int i = missiles.size() - 1; i >= 0; i--) {
-            Missile missile = missiles.get(i);
+        // Create an iterator for the missiles list
+        Iterator<Missile> iterator = missiles.iterator();
+
+        // Iterate over the missiles using the iterator
+        while (iterator.hasNext()) {
+            Missile missile = iterator.next();
+
             if (missile.explodeFinished) {
-                missiles.remove(i);
+                iterator.remove(); // Remove the current missile using the iterator
                 destroyedMissiles++;
             }
+
             // Remove missiles that are off the screen
             if (missile.pos.y + missile.missileHeight > height && !missile.exploding) {
-                missile.explode(missile.pos.x, height - missile.missileHeight /2);
-				missileHit.play();
+                missile.explode(missile.pos.x, height - missile.missileHeight / 2);
+                missileHit.play();
+                iterator.remove(); // Remove the current missile using the iterator
             } else {
                 missile.update(); // Update the position of the missile
                 missile.display(); // Display the missile
@@ -167,7 +173,7 @@ class GameState {
         textSize(30);
         fill(255, 0, 0);
         stroke(0);
-        strokeWeight(2);        
+        strokeWeight(2);
         text("AMMO", width -40, startY -38);
         rectMode(CORNER);
         fill(100); // Set the fill color to grey
@@ -230,12 +236,7 @@ class GameState {
 							destroyedMissiles++;
 							// Add score ( To be updated )
 							score += 50;
-							if (iterator.hasNext()) {
-								iterator.next();
-								}
-							else {
-								break;
-							}
+							break;
 						}
 					}
                 }
