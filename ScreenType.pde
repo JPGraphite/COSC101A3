@@ -6,7 +6,7 @@
  */
 
 enum ScreenType {
-  STARTING,     /* 
+  STARTING, 
   PAUSED, 
   NEXT_LEVEL,
   COMPLETED; 
