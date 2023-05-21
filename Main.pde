@@ -1,11 +1,40 @@
-/* Sound library used for various ingame sound effects. To install in Processing follow below instructions;
-From Processing go to
-→ Sketch
-→ Import Library
-→ Add Library
-→ search for “sound” and select “Sound | Provides a simple way to work with audio”
-→ and click ↓ Install.
-*/
+/***************************************************
+* COSC101 Assignment 3 - Missile Command
+* By Jayden Potts, Thyson Rosen, and Reece Offer.
+* The aim of this program was to create a replica of the
+* classic Atarai game "Missile Command", along with making some
+* changes to personalise the program.
+*
+* Sources for all files loaded into the game as below:
+*
+* Sound files:
+* Soundtrack - https://pixabay.com/music/upbeat-space-120280/
+* Success - https://freesound.org/people/Kagateni/sounds/404360/
+* laserFire - https://freesound.org/people/newlocknew/sounds/514020/
+* missileHit - https://freesound.org/people/Robinhood76/sounds/273332/
+* 
+* Image files:
+* imgCity - https://www.clipartkey.com/downpng/JbbTh_skyscraper-clipart-transparent-city-clipart-transparent/ 
+* imgFlames - https://www.clipartkey.com/downpng/xwowJ_flame-fire-flames-clipart-bottom-border-transparent-free/
+* img Battery - https://www.pngwing.com/en/free-png-tovsr/download/
+* imgMissile - https://www.clipartkey.com/downpng/Tohhoo_nuke-clipart-missile-launch-transparent-background-missile-png/ 
+* imgBackground - https://www.freepik.com/free-vector/alien-planet-landscape-space-view-frozen-canyon_28641061/
+* imgLaser - https://www.pngitem.com/middle/iRxoxRb_transparent-laser-sprite-laser-beam-sprite-png-png/
+* imgLaserExplosion - https://www.pngegg.com/en/png-zwpky
+* imgMissileExplosion - https://www.kindpng.com/imgv/bhJww_explosion-png-image-transparent-background-explosion-png-png/ 
+* 
+* Embedded link to reflection video:
+* https://kaf.une.edu.au/media/COSC101%20Assignment%203/1_fi4gy4rq 
+* 
+*  Sound library used for various ingame sound effects. To install in 
+* Processing follow below instructions:
+* From Processing go to
+* → Sketch
+* → Import Library
+* → Add Library
+* → search for “sound” and select “Sound | Provides a simple way to work with audio”
+* → and click ↓ Install.
+****************************************************/
 
 import processing.sound.*;
 import processing.core.PApplet;

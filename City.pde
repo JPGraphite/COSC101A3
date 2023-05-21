@@ -1,6 +1,3 @@
-/* city image located at https://www.clipartkey.com/downpng/JbbTh_skyscraper-clipart-transparent-city-clipart-transparent/ */
-/* flames image located at https://www.clipartkey.com/downpng/xwowJ_flame-fire-flames-clipart-bottom-border-transparent-free/ */
-
 /*
     Class: City
 
