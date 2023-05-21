@@ -218,7 +218,6 @@ class GameState {
         // Update and draw existing missiles
         for (int i = cities.size() - 1; i >= 0; i--) {
             City city = cities.get(i);
-            city.update(); // Update the position of the city
             city.display(); // Display the city
         }
     }
@@ -365,7 +364,7 @@ class GameState {
                             // Collision occurred
                             missile.explode(point.x, point.y);
                             missileHit.play();
-                            city.setAlive(false);
+                            city.alive = false;
                             continue missileLoop;
                         }
                     }
