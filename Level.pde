@@ -13,10 +13,10 @@
 
 
 class Level {
-    int levelNumber;
-    int numBatteries;
-    int numMissiles;
-    int highScore;
+    int levelNumber; // Number of the level
+    int numBatteries; // Number of batteries in the level
+    int numMissiles; // Number of missiles in the level
+    int highScore; // High score achieved in the level
 
     Level(int levelNumber,  int numBatteries, int numMissiles, int highScore) {
         this.levelNumber = levelNumber;
