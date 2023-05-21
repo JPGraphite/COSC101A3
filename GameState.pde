@@ -1,47 +1,98 @@
+/*
+    Class: GameState
+
+    Represents the state of the game.
+
+    Properties:
+        - score: Used to store the current game score
+        - levelNumber: Current level number for fetching level data
+        - numLasers: Number of shots left to fire
+        - totalLasers: Total number of shots possible
+        - maxMissiles: Total number of incoming missiles
+        - paused: Stores the pause state of the game
+        - numMissiles: Current number of missiles
+        - destroyedMissiles: Number of destroyed missiles from lasers or hitting the ground/cities
+        - playerKilledMissile: Number of missiles killed by the player
+        - previousScore: Score from the previous level used for the menu
+        - previousHighScore: Highest score from the previous level for the menu
+        - p: Reference to the Processing applet
+        - missiles: List of currently spawned missiles
+        - battery: Player-controlled artillery battery
+        - cities: All city classes
+        - highScore: High score for this level
+        - spawnInterval: Random interval between missile spawns
+        - lastSpawnTime: Time of the last missile spawn
+
+    Methods:
+        - GameState(PApplet p, Level nextLevel, int previousScore, int previousHighScore): Constructor for creating a new game state object
+        - setPaused(): Updates the position of the missile
+        - setup(): Initializes the game by creating the artillery battery, missiles, and cities.
+        - mouseClicked(): Handles the firing of the artillery battery when the mouse is clicked.
+        - keyPressed(): Handles the pause state of the game when the spacebar is pressed.
+        - update(): Updates various game elements and manages collisions for missiles, cities, and lasers.
+        - draw(): Displays the game elements on the screen.
+        - getScore(): Calculates the score for the current game based on remaining ammo, destroyed missiles, and cities left alive.
+        - spawnMissiles(): Spawns missiles based on a time interval and the maximum number of missiles.
+        - spawnCities(): Generates cities and positions them on the screen.
+        - drawCities(): Updates and displays the cities on the screen.
+        - drawMissiles(): Updates and displays the missiles on the screen, removing them if they have exploded or moved off the screen.
+        - drawAmmo(): Visualizes the ammunition inventory by drawing empty and filled ammo blocks on the screen.
+        - checkForLaserCollision(): Checks for collisions between lasers and missiles, removes collided missiles, plays sound effects, and updates score variables.
+        - checkForMissileCollisions(): Checks for collisions between missiles and cities, triggers missile explosions, plays sound effects, and marks cities as dead.
+*/
+
+
 import java.util.ArrayList;
 
+
 class GameState {
-    int score = 0; // Used to store current game score
+    int score = 0; // Used to store the current game score
     int levelNumber; // Current level number for fetching level data
     int numLasers; // Number of shots left to fire
     int totalLasers; // Total number of shots possible
     int maxMissiles; // Total number of incoming missiles
-    boolean paused; // Stores pause state of the game
+    boolean paused; // Stores the pause state of the game
     int numMissiles; // Current number of missiles
-    int destroyedMissiles = 0; // Number of destroyed missile from either lasers, or hitting the ground/cities
-    int playerKilledMissile = 0; // Number of missile killed by the player
-    int previousScore; // Score from the previous level used for Menu
-    int previousHighScore; // Highest score from previous level for Menu
-    PApplet p; // Store processing applet
-    ArrayList < Missile > missiles; // List of currently spawned missiles
-    ArtilleryBattery battery; // Class for player controlled battery
-    ArrayList < City > cities; // All city classes
+    int destroyedMissiles = 0; // Number of destroyed missiles from lasers or hitting the ground/cities
+    int playerKilledMissile = 0; // Number of missiles killed by the player
+    int previousScore; // Score from the previous level used for the menu
+    int previousHighScore; // Highest score from the previous level for the menu
+    PApplet p; // Reference to the Processing applet
+    ArrayList<Missile> missiles; // List of currently spawned missiles
+    ArtilleryBattery battery; // Player-controlled artillery battery
+    ArrayList<City> cities; // All city classes
     int highScore; // High score for this level
-
 
     float spawnInterval; // Random interval between missile spawns
     float lastSpawnTime; // Time of the last missile spawn
 
 
+
     GameState(PApplet p, Level nextLevel, int previousScore, int previousHighScore) {
-        this.p = p;
-        this.score = 0;
-        this.levelNumber = nextLevel.levelNumber;
-        this.numLasers = nextLevel.numLasers;
-        this.totalLasers = nextLevel.numLasers;
-        this.maxMissiles = nextLevel.numMissiles;
-        this.previousScore = previousScore;
-        this.previousHighScore = previousHighScore;
-        this.paused = true;
-        this.spawnInterval = random(1, 5); // Initialize the random interval
-        this.lastSpawnTime = p.millis(); // Initialize the last spawn time
-        this.highScore = nextLevel.highScore;
+        this.p = p; // Reference to the Processing applet
+        this.score = 0; // Used to store the current game score
+        this.levelNumber = nextLevel.levelNumber; // Current level number for fetching level data
+        this.numLasers = nextLevel.numLasers; // Number of shots left to fire
+        this.totalLasers = nextLevel.numLasers; // Total number of shots possible
+        this.maxMissiles = nextLevel.numMissiles; // Total number of incoming missiles
+        this.previousScore = previousScore; // Score from the previous level used for the menu
+        this.previousHighScore = previousHighScore; // Highest score from the previous level for the menu
+        this.paused = true; // Stores the pause state of the game
+        this.spawnInterval = random(1, 5); // Random interval between missile spawns
+        this.lastSpawnTime = p.millis(); // Time of the last missile spawn
+        this.highScore = nextLevel.highScore; // High score for this level
+
     }
 
     void setPaused(boolean pause) {
         paused = pause;
     }
 
+
+    /*
+        update();
+        This function initialises all the classes and arraylists used for gameplay.
+    */
     void setup() {
         // Initialise battery at the center of the screen
         battery = new ArtilleryBattery(width / 2, height - 30, numLasers);
