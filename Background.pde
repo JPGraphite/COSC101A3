@@ -44,6 +44,7 @@ class Background {
   void draw() {
     imageMode(CORNER);
     image(imgBackground, 0, 0, width, height);
+    stroke(3);
     fill( 100, 100, 100);
     // Draw a triangle in the bottom left corner
     triangle(0, height, 0, height - 70, 70, height);

@@ -156,6 +156,8 @@ class Missile {
             imageMode(CENTER);
             if (explosionRadius < explosionMaxRadius) {
                 explosionRadius++;
+                fill(0, 0, 0);
+                ellipse(pos.x , pos.y, explosionMaxRadius, explosionMaxRadius);
                 image(imgMissileExplosion, pos.x, pos.y, currentRadius * 2, currentRadius * 2);
             } else {
                 explodeFinished = true;
