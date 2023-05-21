@@ -191,7 +191,7 @@ class GameState {
         spawnCities();
         This function generates cities in an arraylist.
         The cities are positioned in two rows, with three cities on each side of the Artillery Batter.
-        The function calculates the x-coordinate for each city and assigns a fixed y-coordinate near the bottom of the screen.
+        The function calculates the x-coordinate for each city
         It handles the creation of cities and their initial positioning.
     */
     void spawnCities() {
