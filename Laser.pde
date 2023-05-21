@@ -1,3 +1,7 @@
+/*
+  Class controlling outgoing fire from the Battery
+*/
+
 /* laser image found at https://www.pngitem.com/middle/iRxoxRb_transparent-laser-sprite-laser-beam-sprite-png-png/ */
 
 class Laser {

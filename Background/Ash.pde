@@ -1,4 +1,4 @@
-
+// floating post-apocalyptic ash effect
 class Ash {
   float x;
   float y;

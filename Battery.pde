@@ -1,3 +1,7 @@
+/*
+  Class to draw and control the centre battery firing at incoming missiles
+  Also controls the targetting crosshairs
+*/
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -18,9 +22,8 @@ class ArtilleryBattery {
         // Initialize list of lasers
         lasers = new ArrayList < Laser > ();
     }
-
+// Draw a target at the location of the mouse
     void drawTarget() {
-        // Draw a target at the location of the mouse
         noFill();
         strokeWeight(1);
         if( remainingLasers > 0) {
@@ -39,7 +42,7 @@ class ArtilleryBattery {
         line(mouseX, mouseY - 5, mouseX, mouseY - 15);
         line(mouseX, mouseY + 5, mouseX, mouseY + 15);
     }
-
+//Firing the battery at incoming missles
     void fire() {
         if (remainingLasers <= 0 ) return;
         remainingLasers--;

@@ -1,3 +1,7 @@
+/*
+  Class for the cities on screen, using 2 images, one for an undamaged city and another one for 
+  one burning after a missile hit
+*/
 /* city image located at https://www.clipartkey.com/downpng/JbbTh_skyscraper-clipart-transparent-city-clipart-transparent/ */
 /* flames image located at https://www.clipartkey.com/downpng/xwowJ_flame-fire-flames-clipart-bottom-border-transparent-free/ */
 

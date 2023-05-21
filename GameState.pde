@@ -1,3 +1,6 @@
+/*
+  Gameplay class bringing it all together
+*/
 import java.util.ArrayList;
 
 class GameState {
@@ -88,7 +91,9 @@ class GameState {
 		drawAmmo();
     }
 
+        
     int getScore() {
+        // Score values depending on ammo, missiles destroyed and surviving cities
         int scoreValForAmmo = 20;
         int scoreValForMissilesDestroyed = 50;
         int scoreValForCitiesAlive = 200;
@@ -114,8 +119,9 @@ class GameState {
             spawnInterval = random(1, 5);
         }
     }
-
+        
     void spawnCities() {
+        // Bring cities to the screen
 		float cityWidth = 80;
 		float cityHeight = 60;
 		for (int i = 1; i < 4; i++) {
@@ -158,6 +164,7 @@ class GameState {
     }
 
 	void drawAmmo() {
+        // ammo status and number depicted dynamically on screen
 		int ammoWidth = 20; // Width of each ammo block
 		int ammoHeight = 10; // Height of each ammo block
 		int spacing = 5; // Spacing between ammo blocks
@@ -243,8 +250,8 @@ class GameState {
         }
     }
 
-
     void checkForMissileCollisions() {
+        // Incoming missing v cities collision calculations
     for (City city : cities) {
         if (!city.alive) continue;
 		//

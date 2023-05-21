@@ -1,3 +1,6 @@
+/*
+  Background class controls background and falling ash effect
+*/
 class Background {
   int ashCount = 200;
   Ash[] ashes = new Ash[ashCount];
@@ -16,30 +19,11 @@ class Background {
     for (int i = 0; i < ashCount; i++) {
       ashes[i] = new Ash(random(width), random(height), random(1, 3));
     }
-
-    // generateTerrain();
   }
-
-  // void generateTerrain() {
-  //   terrain = new float[width];
-  //   float xOffset = 0;
-
-    // for (int i = 0; i < width; i++) {
-    //   terrain[i] = map(noise(xOffset), 0, 1, height * 0.6, height);
-    //   xOffset += terrainScale;
-    // }
-  //}
 
   void draw() {
     imageMode(CORNER);
     image(imgBackground, 0, 0, width, height);
-
-    // Draw terrain background
-    // noStroke();
-    // for (int i = 0; i < width; i++) {
-    //   fill(204, 198, 177);
-    //   rect(i, height, 1, -terrain[i]);
-    //}
 
     // Falling ash
     for (int i = 0; i < ashCount; i++) {
@@ -56,6 +40,7 @@ class Background {
   }
 }
 
+// randomised falling ash for a nice apocalyptic effect
 class Ash {
   float x;
   float y;
