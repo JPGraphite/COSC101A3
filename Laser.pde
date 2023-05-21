@@ -61,26 +61,32 @@ class Laser {
         if (!exploded && !reachedTarget) {
             // Calculate the angle between the laser position and the mouse position
     float targetAngle = atan2(targetY - y, targetX - x);
-  
+
     pushMatrix(); // Save the current transformation matrix
     translate(x, y); // Translate to the laser position
     rotate(targetAngle + PI / 2); // Rotate by the target angle
-  
+
     // Draw laser as a rotated image
     image(imgLaser, 0, 0, size, size * 2); // Draw the image at the center (0, 0)
-  
+
     popMatrix(); // Restore the previous transformation matrix
 
             //image(imgLaser, x, y, lineX2, lineY2);
             line(targetX - targetSize, targetY - targetSize, targetX + targetSize, targetY + targetSize);
             line(targetX + targetSize, targetY - targetSize, targetX - targetSize, targetY + targetSize);
         } else {
-            stroke(255, 0, 0);
-            strokeWeight(2);
+
+
             float currentRadius = explosionRadius;
             if (explosionRadius < explosionMaxRadius) {
                 explosionRadius++;
+                 fill(0, 0, 0);
+                 stroke(100, 100, 0);
+                 strokeWeight(2);
+
+                ellipse(targetX , targetY, explosionMaxRadius, explosionMaxRadius);
                 image(imgLaserExplosion, targetX, targetY, currentRadius * 2, currentRadius * 2);
+
             }
         }
     }
