@@ -177,7 +177,7 @@ class GameState {
         text("AMMO", width -40, startY -38);
         rectMode(CORNER);
         fill(100); // Set the fill color to grey
-        rect(width - ammoWidth - 15, startY  - ammoHeight, ammoWidth + 10, (ammoHeight + spacing) * totalBatteries + spacing); // Draw the grey rectangle
+        rect(width - ammoWidth - 15, startY  - ammoHeight, ammoWidth + 10, (ammoHeight + spacing) * totalBatteries + spacing + ammoHeight); // Draw the grey rectangle
 
         for (int i = 0; i < totalBatteries; i++) {
 			int x = width - ammoWidth - 10; // X position of the ammo blocks
